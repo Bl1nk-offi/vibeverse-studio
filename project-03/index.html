@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIBEVERSE Finance 2.0</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    padding: 30px 16px;
+    font-family: Arial, sans-serif;
+    color: white;
+    background:
+        radial-gradient(circle at top left, #442078, transparent 40%),
+        linear-gradient(135deg, #090914, #15112b, #090914);
+}
+
+.container {
+    max-width: 950px;
+    width: 100%;
+    margin: auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo {
+    color: #bd91ff;
+    font-size: 13px;
+    letter-spacing: 5px;
+    margin-bottom: 12px;
+}
+
+h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #aaa5bd;
+}
+
+.panel {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 18px;
+    padding: 22px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(12px);
+}
+
+h2 {
+    font-size: 18px;
+    margin-bottom: 17px;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.money-card {
+    padding: 20px 15px;
+    border-radius: 15px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.money-card span {
+    display: block;
+    color: #aaa5bd;
+    font-size: 12px;
+    margin-bottom: 12px;
+}
+
+.money-card strong {
+    font-size: 23px;
+    overflow-wrap: anywhere;
+}
+
+.balance strong {
+    color: #c49aff;
+}
+
+.income strong {
+    color: #72e6a0;
+}
+
+.expense strong {
+    color: #ff8b9b;
+}
+
+input, select {
+    width: 100%;
+    padding: 13px;
+    border-radius: 10px;
+    border: 1px solid #40365c;
+    background: #171329;
+    color: white;
+    outline: none;
+    font-size: 14px;
+}
+
+input:focus, select:focus {
+    border-color: #a66cff;
+}
+
+input[type="date"] {
+    color-scheme: dark;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.form-grid.three {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    padding: 13px 17px;
+    color: white;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.15);
+}
+
+.add-btn {
+    width: 100%;
+    background: linear-gradient(90deg, #813cff, #b15cff);
+}
+
+.filters {
+    display: flex;
+    gap: 9px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.filter-btn {
+    background: #27203e;
+    color: #c5bdd8;
+    padding: 10px 15px;
+}
+
+.filter-btn.active {
+    background: #8745e8;
+    color: white;
+}
+
+.search {
+    margin-bottom: 15px;
+}
+
+.transaction-list {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+}
+
+.transaction {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 15px;
+    border-radius: 13px;
+    background: rgba(255,255,255,0.055);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.transaction-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: #302747;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.transaction-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.transaction-title {
+    font-weight: bold;
+    margin-bottom: 6px;
+    overflow-wrap: anywhere;
+}
+
+.transaction-meta {
+    color: #aaa5bd;
+    font-size: 11px;
+}
+
+.transaction-amount {
+    font-weight: bold;
+    white-space: nowrap;
+    font-size: 15px;
+}
+
+.positive {
+    color: #72e6a0;
+}
+
+.negative {
+    color: #ff8b9b;
+}
+
+.edit-btn {
+    background: #49356f;
+    padding: 9px 11px;
+    font-size: 12px;
+}
+
+.delete-btn {
+    background: #562936;
+    padding: 9px 11px;
+    font-size: 12px;
+}
+
+.empty {
+    text-align: center;
+    color: #aaa5bd;
+    padding: 30px 10px;
+}
+
+.chart-list {
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+}
+
+.chart-item {
+    display: flex;
+    flex-direction:
+
+
+column;
+    gap: 7px;
+}
+
+.chart-label {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 13px;
+}
+
+.chart-label span:first-child {
+    color: #ddd5ed;
+}
+
+.chart-label span:last-child {
+    color: #aaa5bd;
+}
+
+.chart-track {
+    height: 10px;
+    background: #29213d;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.chart-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #813cff, #c18aff);
+    border-radius: 20px;
+    transition: width 0.3s;
+}
+
+footer {
+    text-align: center;
+    color: #716b84;
+    font-size: 12px;
+    margin-top: 25px;
+}
+
+@media (max-width: 650px) {
+    body {
+        padding: 22px 12px;
+    }
+
+    h1 {
+        font-size: 29px;
+    }
+
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .money-card {
+        padding: 16px;
+    }
+
+    .money-card strong {
+        font-size: 21px;
+    }
+
+    .panel {
+        padding: 17px;
+    }
+
+    .form-grid,
+    .form-grid.three {
+        grid-template-columns: 1fr;
+    }
+
+    .transaction {
+        flex-wrap: wrap;
+    }
+
+    .transaction-amount {
+        margin-left: auto;
+    }
+
+    .transaction-info {
+        min-width: 60%;
+    }
+}
+</style>
+<style>
+/* VIBEVERSE shared navigation */
+.vv-site-header{position:sticky;top:0;z-index:1000;background:rgba(9,9,13,.94);backdrop-filter:blur(18px);border-bottom:1px solid rgba(222,218,255,.13);font-family:Inter,Arial,sans-serif;color:#f4f2fa}
+.vv-navwrap{width:min(1240px,calc(100% - 40px));min-height:74px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.vv-brand{display:flex;align-items:center;gap:11px;white-space:nowrap;text-decoration:none;color:#f4f2fa;font-size:12px;font-weight:800;letter-spacing:.19em}
+.vv-mark{width:34px;height:34px;border:1px solid #b8a2ff;border-radius:50%;display:grid;place-items:center;color:#c8b5ff;font:25px Georgia,serif;position:relative}
+.vv-mark:after{content:"";position:absolute;width:42px;height:13px;border:1px solid #8b6cff;border-radius:50%;transform:rotate(-38deg)}
+.vv-links{display:flex;align-items:center;gap:clamp(12px,2vw,28px);font:11px Inter,Arial,sans-serif;color:#d0cbdc}
+.vv-links a,.vv-links summary{color:inherit;text-decoration:none;cursor:pointer;list-style:none;white-space:nowrap;transition:color .2s}
+.vv-links a:hover,.vv-links summary:hover{color:#c2b1ff}
+.vv-links summary::-webkit-details-marker{display:none}.vv-links summary:after{content:'⌄';margin-left:6px;color:#a997e8}
+.vv-dropdown{position:relative}.vv-dropdown[open] .vv-submenu{display:grid}
+.vv-submenu{display:none;position:absolute;top:calc(100% + 18px);left:-16px;min-width:210px;padding:9px;background:#15131f;border:1px solid rgba(222,218,255,.16);box-shadow:0 18px 50px #0009;border-radius:8px;gap:2px}
+.vv-submenu a{padding:10px 12px;border-radius:5px;white-space:normal}.vv-submenu a:hover{background:#8b6cff20}
+.vv-controls{display:flex;align-items:center;gap:12px}.vv-lang,.vv-menu{background:transparent;color:#f4f2fa;border:1px solid rgba(222,218,255,.2);border-radius:24px;padding:8px 12px;font-size:10px;cursor:pointer}.vv-menu{display:none;font-size:21px;line-height:1;padding:5px 10px}
+@media(max-width:850px){.vv-navwrap{min-height:68px}.vv-menu{display:block}.vv-links{display:none;position:absolute;top:68px;left:0;right:0;background:rgba(9,9,13,.98);border-bottom:1px solid rgba(222,218,255,.14);padding:18px 22px 24px;align-items:stretch;gap:4px;flex-direction:column}.vv-links.open{display:flex}.vv-links>a,.vv-links summary{display:block;padding:12px 8px}.vv-dropdown[open] .vv-submenu{position:static;display:grid;box-shadow:none;margin:0 0 8px 8px;min-width:0}.vv-submenu{border-radius:6px}.vv-submenu a{padding:11px 14px}.vv-links summary:after{float:right}}
+@media(prefers-reduced-motion:reduce){.vv-links a,.vv-links summary{transition:none}}
+</style>
+<style>
+/* VIBEVERSE 2.0 — CINEMATIC COSMOS / DIGITAL BRUTALISM */
+:root{--vv-ice:#e9e7f2;--vv-violet:#9b79ff;--vv-acid:#d7ff72;--vv-dim:#858292;--vv-line:rgba(225,220,255,.17)}
+body{background:#08080b!important;color:var(--vv-ice)!important}body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(ellipse at 85% 8%,rgba(104,65,191,.17),transparent 36%),radial-gradient(ellipse at 8% 85%,rgba(36,61,83,.14),transparent 35%)}
+header,.vv-site-header{background:rgba(7,7,10,.78)!important;backdrop-filter:blur(24px)!important;border-bottom:1px solid var(--vv-line)!important}a,button{transition:color .25s,transform .3s,border-color .3s,background .3s}a:hover{color:var(--vv-violet)}
+.hero,.section,.about,.services,.projects{isolation:isolate} .hero{overflow:hidden!important;position:relative!important}.hero:after{content:"V / V";position:absolute;right:-.08em;bottom:-.25em;font-size:clamp(120px,24vw,360px);font-weight:800;letter-spacing:-.12em;line-height:1;color:rgba(238,232,255,.035);pointer-events:none}
+.hero h1,.hero h2{letter-spacing:-.065em!important;text-transform:none}.hero h1 em,.hero h2 em{color:var(--vv-violet)!important}.eyebrow,.section-kicker,.kicker{color:var(--vv-acid)!important;letter-spacing:.24em!important}.section-title,h2{letter-spacing:-.055em!important}
+.project-card,.card,.service,.step,.point,.contact-panel,.about-art{border-radius:0!important;border-color:var(--vv-line)!important;box-shadow:none!important;transition:transform .45s cubic-bezier(.2,.8,.2,1),border-color .3s,background .3s!important}.project-card:hover,.card:hover,.service:hover,.step:hover{transform:translateY(-6px)!important;border-color:rgba(155,121,255,.65)!important}
+.btn,.cta{border-radius:0!important;position:relative;overflow:hidden}.btn-primary,.cta{background:var(--vv-ice)!important;color:#09090d!important;box-shadow:none!important;font-weight:800!important}.btn-primary:hover,.cta:hover{background:var(--vv-acid)!important;color:#08080b!important;transform:translateY(-3px)}.btn-ghost{border-radius:0!important;border-color:var(--vv-line)!important}
+.vv-mark,.brand-mark{border-radius:0!important;transform:rotate(45deg)}.vv-mark span,.brand-mark{transform:rotate(-45deg)}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}.reveal.visible{opacity:1;transform:none}
+footer,.footer{border-top:1px solid var(--vv-line)!important;background:#08080b!important}footer a:hover,.footer a:hover{color:var(--vv-acid)!important}
+.vv-submenu{background:#09090d!important;border-radius:0!important}.vv-lang,.vv-menu,.lang{border-radius:0!important;border-color:var(--vv-line)!important}
+@media(max-width:760px){.hero{min-height:unset!important}.hero h1{font-size:clamp(55px,15vw,88px)!important}.section{padding:65px 0!important}.vv-links.open,.nav-links.open{background:#08080b!important}.project-grid,.service-layout,.about-layout{gap:20px!important}}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important}}
+</style><style>.vv-contact-hidden{display:none!important}</style>
+<style id="vv-final-accessibility-responsive">
+/* VIBEVERSE final responsive/accessibility safeguards */
+img, video, canvas, svg { max-width: 100%; }
+html { scroll-padding-top: 5rem; }
+body { overflow-wrap: anywhere; }
+@media (max-width: 360px) {
+  button, .btn, .cta { max-width: 100%; }
+  input, select, textarea { max-width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+</style>
+
+<style id="vv-cinematic-page-system">:root{--vv-acid:#d7ff72;--vv-ice:#e8e8f0;--vv-violet:#9b79ff;--vv-line:rgba(231,230,244,.16)}body{background:#08080b!important;color:#ecebf4!important}header,.vv-site-header{background:rgba(7,7,10,.78)!important;backdrop-filter:blur(22px)!important;border-bottom:1px solid var(--vv-line)!important}a:hover{color:var(--vv-acid)!important}.btn,.cta,.vv-lang,.vv-menu{border-radius:0!important}.btn-primary,.cta{background:var(--vv-ice)!important;color:#08080b!important}.btn-primary:hover,.cta:hover{background:var(--vv-acid)!important}.project-card,.card,.service,.step,.point,.contact-panel,.about-art{border-radius:0!important;border-color:var(--vv-line)!important;box-shadow:none!important}.section-title,h1,h2{letter-spacing:-.055em}footer,.footer{border-top:1px solid var(--vv-line)!important;background:#08080b!important}@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition-duration:.01ms!important;animation-duration:.01ms!important}}</style>
+</head>
+
+<body>
+<header class="vv-site-header"><div class="vv-navwrap">
+<a class="vv-brand" href="../project-01/index.html#home" aria-label="VIBEVERSE home"><span class="vv-mark">V</span><span>VIBEVERSE</span></a>
+<nav class="vv-links" id="vvNavLinks" aria-label="Main navigation">
+<a href="../project-01/index.html#home" data-vv-en="Home" data-vv-ru="Главная">Home</a>
+<details class="vv-dropdown"><summary data-vv-en="Projects" data-vv-ru="Проекты">Projects</summary><div class="vv-submenu"><a href="../project-01/projects/portfolio.html" data-vv-en="Portfolio" data-vv-ru="Портфолио">Portfolio</a><a href="../project-01/projects/tasks.html" data-vv-en="Tasks 3.0" data-vv-ru="Задачи 3.0">Tasks 3.0</a><a href="../project-01/projects/finance.html" data-vv-en="Finance 2.0" data-vv-ru="Финансы 2.0">Finance 2.0</a><a href="../project-01/projects/habitflow.html" data-vv-en="HabitFlow 5.0" data-vv-ru="HabitFlow 5.0">HabitFlow 5.0</a></div></details>
+<details class="vv-dropdown"><summary data-vv-en="Services" data-vv-ru="Услуги">Services</summary><div class="vv-submenu"><a href="../project-01/services/web-development.html" data-vv-en="Web development" data-vv-ru="Веб-разработка">Web development</a><a href="../project-01/services/ui-ux-design.html" data-vv-en="UI / UX design" data-vv-ru="UI / UX дизайн">UI / UX design</a><a href="../project-01/services/3d-animation.html" data-vv-en="3D & animation" data-vv-ru="3D и анимация">3D & animation</a><a href="../project-01/services/optimization.html" data-vv-en="Optimization" data-vv-ru="Оптимизация">Optimization</a><a href="../project-01/services/telegram-bots.html" data-vv-en="Telegram bots" data-vv-ru="Telegram-боты">Telegram bots</a></div></details>
+<a href="../project-01/about.html" data-vv-en="About" data-vv-ru="О нас">About</a><span class="vv-contact-hidden">Contact</span>
+</nav><div class="vv-controls"><button class="vv-lang" id="vvLangToggle" type="button" aria-label="Switch language">RU</button><button class="vv-menu" id="vvMenuButton" type="button" aria-label="Open menu" aria-expanded="false">☰</button></div>
+</div></header>
+
+
+<div class="container">
+
+<header>
+    <div class="logo">VIBEVERSE</div>
+    <h1>Мои финансы</h1>
+    <p class="subtitle">Контролируй деньги. Управляй будущим.</p>
+</header>
+
+<section class="dashboard">
+
+    <div class="money-card balance">
+        <span>Общий баланс</span>
+        <strong id="balance">0 ₽</strong>
+    </div>
+
+    <div class="money-card income">
+        <span>Общий доход</span>
+        <strong id="income">0 ₽</strong>
+    </div>
+
+    <div class="money-card expense">
+        <span>Общие расходы</span>
+        <strong id="expense">0 ₽</strong>
+    </div>
+
+</section>
+
+<section class="panel">
+
+    <h2>+ Новая операция</h2>
+
+    <form id="transactionForm">
+
+        <div class="form-grid">
+
+            <input
+                id="titleInput"
+                type="text"
+                placeholder="Название операции"
+                maxlength="80"
+                required
+            >
+
+            <input
+                id="amountInput"
+                type="number"
+                placeholder="Сумма в рублях"
+                min="0.01"
+                max="1000000000000"
+                step="0.01"
+                required
+            >
+
+        </div>
+
+        <div class="form-grid three">
+
+            <select id="typeInput">
+                <option value="income">Доход</option>
+                <option value="expense">Расход</option>
+            </select>
+
+            <select id="categoryInput">
+                <option value="Зарплата">Зарплата</option>
+                <option value="Покупки">Покупки</option>
+                <option value="Еда">Еда</option>
+                <option value="Транспорт">Транспорт</option>
+                <option value="Развлечения">Развлечения</option>
+                <option value="Учёба">Учёба</option>
+                <option value="Другое">Другое</option>
+            </select>
+
+            <input id="dateInput" type="date" required>
+
+        </div>
+
+        <button class="add-btn" type="submit">
+            Добавить операцию
+        </button>
+
+    </form>
+
+</section>
+
+<section class="panel">
+
+    <h2>История операций</h2>
+
+    <input
+        class="search"
+        id="searchInput"
+        type="text"
+        placeholder="Поиск операций..."
+    >
+
+    <div class="filters">
+
+        <button class="filter-btn active" data-filter="all">
+            Все
+        </button>
+
+        <button class="filter-btn" data-filter="income">
+            Доходы
+        </button>
+
+        <button class="filter-btn" data-filter="expense">
+            Расходы
+        </button>
+
+    </div>
+
+    <div class="transaction-list" id="transactionList"></div>
+
+</section>
+
+<section class="panel">
+
+    <h2>Анализ расходов</h2>
+
+    <div class="chart-list" id="chartList"></div>
+
+</section>
+
+<footer>
+    VIBEVERSE FINANCE 2.0 · Управляй своими финансами
+</footer>
+
+</div>
+
+<script>
+
+// ЭЛЕМЕНТЫ СТРАНИЦЫ
+
+const transactionForm = document.getElementById("transactionForm");
+const titleInput = document.getElementById("titleInput");
+const amountInput = document.getElementById("amountInput");
+const typeInput = document.getElementById("typeInput");
+const categoryInput = document.getElementById("categoryInput");
+const dateInput = document.getElementById("dateInput");
+const searchInput = document.getElementById("searchInput");
+
+const transactionList = document.getElementById("transactionList");
+const chartList = document.getElementById("chartList");
+
+const balanceElement = document.getElementById("balance");
+const incomeElement = document.getElementById("income");
+const expenseElement = document.getElementById("expense");
+
+let transactions = [];
+let transactionsLoadFailed = false;
+let currentFilter = "all";
+
+// ДАТА СЕГОДНЯ
+
+function getToday() {
+    const today = new Date();
+
+    return today.getFullYear() + "-" +
+        String(today.getMonth() + 1).padStart(2, "0") + "-" +
+        String(today.getDate()).padStart(2, "0");
+}
+
+dateInput.value = getToday();
+
+// ЗАГРУЗКА ДАННЫХ
+
+try {
+    const raw = localStorage.getItem("vibeverse_finance");
+    if (raw !== null) {
+        const saved = JSON.parse(raw);
+        if (!Array.isArray(saved)) {
+            throw new Error("Сохранённые операции имеют неверный формат.");
+        }
+
+        const valid = saved.filter(item =>
+            item && typeof item === "object" && !Array.isArray(item) &&
+            typeof item.id === "string" && typeof item.title === "string" &&
+            typeof item.amount === "number" && Number.isFinite(item.amount) &&
+            item.amount > 0 && item.amount <= 1000000000000 &&
+            (item.type === "income" || item.type === "expense") &&
+            typeof item.date === "string"
+        );
+        if (valid.length !== saved.length) {
+            throw new Error("В сохранённых операциях есть некорректные записи.");
+        }
+
+        transactions = valid.map(item => ({
+            ...item,
+            category: typeof item.category === "string" ? item.category : "Другое",
+            createdAt: Number.isFinite(item.createdAt) ? item.createdAt : 0
+        }));
+    }
+} catch (error) {
+    transactions = [];
+    transactionsLoadFailed = true;
+    console.error("Ошибка загрузки данных. Исходное хранилище не изменено:", error);
+    alert("Не удалось прочитать финансовые данные. Они защищены от перезаписи. Сначала сделайте резервную копию или восстановите хранилище.");
+}
+
+// СОХРАНЕНИЕ
+
+function saveTransactions() {
+    if (transactionsLoadFailed) {
+        alert("Сохранение заблокировано: сначала необходимо восстановить финансовые данные.");
+        return false;
+    }
+    try {
+        localStorage.setItem("vibeverse_finance", JSON.stringify(transactions));
+        return true;
+    } catch (error) {
+        alert("Не удалось сохранить данные в браузере. Изменения не подтверждены.");
+        console.error(error);
+        return false;
+    }
+}
+
+// ФОРМАТИРОВАНИЕ ДЕНЕГ
+
+function formatMoney(amount) {
+    return new Intl.NumberFormat("ru-RU", {
+        style: "currency",
+        currency: "RUB",
+        maximumFractionDigits: 2
+    }).format(amount);
+}
+
+// ФОРМАТИРОВАНИЕ ДАТЫ
+
+function formatDate(date) {
+    const parts = date.split("-");
+
+    if (parts.length !== 3) return date;
+
+    return parts[2] + "." + parts[1] + "." + parts[0];
+}
+
+// ПРОВЕРКА ДАТЫ
+
+function isValidDate(value) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+        return false;
+    }
+
+    const parts = value.split("-").map(Number);
+
+    const year = parts[0];
+    const month = parts[1];
+    const day = parts[2];
+
+    const date = new Date(year, month - 1, day);
+
+    return date.getFullYear() === year &&
+        date.getMonth() === month - 1 &&
+        date.getDate() === day;
+}
+
+// ОБНОВЛЕНИЕ DASHBOARD
+
+function updateDashboard() {
+
+    const totalIncome = transactions
+        .filter(item => item.type === "income")
+        .reduce((sum, item) => sum + item.amount, 0);
+
+    const totalExpense = transactions
+        .filter(item => item.type === "expense")
+        .reduce((sum, item) => sum + item.amount, 0);
+
+    const balance = totalIncome - totalExpense;
+
+    balanceElement.textContent = formatMoney(balance);
+    incomeElement.textContent = formatMoney(totalIncome);
+    expenseElement.textContent = formatMoney(totalExpense);
+
+    balanceElement.style.color =
+        balance < 0 ? "#ff8b9b" : "#c49aff";
+}
+
+// ОТРИСОВКА ОПЕРАЦИЙ
+
+function renderTransactions() {
+
+    transactionList.innerHTML = "";
+
+    const search = searchInput.value.trim().toLowerCase();
+
+    const filtered = transactions
+        .filter(item => {
+
+            const matchesFilter =
+    currentFilter === "all" ||
+    item.type === currentFilter;
+
+const matchesSearch =
+    item.title.toLowerCase().includes(search) ||
+    item.category.toLowerCase().includes(search);
+            return matchesFilter && matchesSearch;
+        })
+        .sort((a, b) => b.createdAt - a.createdAt);
+
+    if (filtered.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "Операций пока нет ✨";
+        transactionList.appendChild(empty);
+        return;
+    }
+
+    filtered.forEach(item => {
+
+        const element = document.createElement("div");
+        element.className = "transaction";
+
+        const icon = document.createElement("div");
+        icon.className = "transaction-icon";
+        icon.textContent =
+            item.type === "income" ? "↗" : "↙";
+
+        const info = document.createElement("div");
+        info.className = "transaction-info";
+
+        const title = document.createElement("div");
+        title.className = "transaction-title";
+        title.textContent = item.title;
+
+        const meta = document.createElement("div");
+        meta.className = "transaction-meta";
+        meta.textContent =
+            item.category + " · " + formatDate(item.date);
+
+        info.append(title, meta);
+
+        const amount = document.createElement("div");
+        amount.className =
+            "transaction-amount " +
+            (item.type === "income" ? "positive" : "negative");
+
+        amount.textContent =
+            (item.type === "income" ? "+" : "−") +
+            formatMoney(item.amount);
+
+        // КНОПКА РЕДАКТИРОВАНИЯ
+
+        const editButton = document.createElement("button");
+        editButton.className = "edit-btn";
+        editButton.textContent = "Изменить";
+
+        editButton.addEventListener("click", () => {
+
+            const newTitle = prompt(
+                "Название операции:",
+                item.title
+            );
+
+            if (newTitle === null) return;
+
+            if (!newTitle.trim()) {
+                alert("Название не может быть пустым.");
+                return;
+            }
+
+            const newAmountText = prompt(
+                "Сумма операции:",
+                String(item.amount)
+            );
+
+            if (newAmountText === null) return;
+
+            const newAmount = Number(newAmountText);
+
+            if (
+                !Number.isFinite(newAmount) ||
+                newAmount <= 0 ||
+                newAmount > 1000000000000
+            ) {
+                alert("Введите корректную сумму.");
+                return;
+            }
+
+            const newType = prompt(
+                "Тип: income — доход, expense — расход",
+                item.type
+            );
+
+            if (newType === null) return;
+
+            if (!["income", "expense"].includes(newType)) {
+                alert("Некорректный тип операции.");
+                return;
+            }
+
+            const newCategory = prompt(
+                "Категория:",
+                item.category
+            );
+
+            if (newCategory === null || !newCategory.trim()) {
+                return;
+            }
+
+            const newDate = prompt(
+                "Дата (ГГГГ-ММ-ДД):",
+                item.date
+            );
+
+            if (newDate === null) return;
+
+            if (!isValidDate(newDate)) {
+                alert("Некорректная дата.");
+                return;
+            }
+
+            const index = transactions.findIndex(
+    transaction => transaction.id === item.id
+);
+
+if (index === -1) {
+    alert("Операция не найдена.");
+    return;
+}
+
+const previousTransaction = { ...transactions[index] };
+transactions[index] = {
+    ...transactions[index],
+    title: newTitle.trim().slice(0, 80),
+    amount: newAmount,
+    type: newType,
+    category: newCategory.trim(),
+    date: newDate
+};
+
+if (!saveTransactions()) {
+    transactions[index] = previousTransaction;
+    return;
+}
+renderAll();
+        });
+
+        // КНОПКА УДАЛЕНИЯ
+
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "delete-btn";
+        deleteButton.textContent = "Удалить";
+
+        deleteButton.addEventListener("click", () => {
+
+            if (!confirm("Удалить эту операцию?")) return;
+
+            const previousTransactions = transactions;
+            transactions = transactions.filter(
+                transaction => transaction.id !== item.id
+            );
+
+            if (!saveTransactions()) {
+                transactions = previousTransactions;
+                return;
+            }
+            renderAll();
+        });
+
+        element.append(
+            icon,
+            info,
+            amount,
+            editButton,
+            deleteButton
+        );
+
+        transactionList.appendChild(element);
+    });
+}
+
+// АНАЛИЗ РАСХОДОВ
+
+function renderChart() {
+
+    chartList.innerHTML = "";
+
+    const expenses = transactions.filter(
+        item => item.type === "expense"
+    );
+
+    if (expenses.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "Пока нет расходов для анализа 📊";
+        chartList.appendChild(empty);
+        return;
+    }
+
+    const categories = new Map();
+
+    expenses.forEach(item => {
+        categories.set(item.category, (categories.get(item.category) || 0) + item.amount);
+    });
+
+    const total = expenses.reduce(
+        (sum, item) => sum + item.amount,
+        0
+    );
+
+    [...categories.entries()]
+        .sort((a, b) => b[1] - a[1])
+        .forEach(([category, amount]) => {
+
+            const percentage = (amount / total) * 100;
+
+            const item = document.createElement("div");
+            item.className = "chart-item";
+
+            const label = document.createElement("div");
+            label.className = "chart-label";
+
+            const name = document.createElement("span");
+            name.textContent = category;
+
+            const value = document.createElement("span");
+            value.textContent =
+                formatMoney(amount) +
+                " · " +
+                percentage.toFixed(1) +
+                "%";
+
+            label.append(name, value);
+
+            const track = document.createElement("div");
+            track.className = "chart-track";
+
+            const fill = document.createElement("div");
+            fill.className = "chart-fill";
+            fill.style.width = percentage + "%";
+
+            track.appendChild(fill);
+
+            item.append(label, track);
+            chartList.appendChild(item);
+        });
+}
+
+// ОБНОВЛЕНИЕ ВСЕГО ПРИЛОЖЕНИЯ
+
+function renderAll() {
+    updateDashboard();
+    renderTransactions();
+    renderChart();
+}
+
+// ДОБАВЛЕНИЕ ОПЕРАЦИИ
+
+transactionForm.addEventListener("submit", event => {
+
+    event.preventDefault();
+
+    const title = titleInput.value.trim();
+    const amount = Number(amountInput.value);
+    const type = typeInput.value;
+    const category = categoryInput.value;
+    const date = dateInput.value;
+
+    if (!title) {
+        alert("Введите название операции.");
+        return;
+    }
+
+    if (
+        !Number.isFinite(amount) ||
+        amount <= 0 ||
+        amount > 1000000000000
+    ) {
+        alert("Введите корректную сумму.");
+        return;
+    }
+
+    if (!["income", "expense"].includes(type)) {
+        alert("Выберите корректный тип операции.");
+        return;
+    }
+
+    if (!isValidDate(date)) {
+        alert("Выберите корректную дату.");
+        return;
+    }
+
+    const transaction = {
+        id: Date.now().toString() +
+            Math.random().toString(36).slice(2),
+        title: title.slice(0, 80),
+        amount: amount,
+        type: type,
+        category: category,
+        date: date,
+        createdAt: Date.now()
+    };
+
+    transactions.push(transaction);
+
+    if (!saveTransactions()) {
+        transactions.pop();
+        return;
+    }
+
+    transactionForm.reset();
+    dateInput.value = getToday();
+
+    renderAll();
+});
+
+// ФИЛЬТРЫ
+
+document.querySelectorAll(".filter-btn").forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        currentFilter = button.dataset.filter;
+
+        document.querySelectorAll(".filter-btn").forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+        renderTransactions();
+    });
+});
+
+// ПОИСК
+
+searchInput.addEventListener("input", renderTransactions);
+
+// ПЕРВЫЙ ЗАПУСК
+
+renderAll();
+
+</script>
+
+<script>
+(()=>{const nav=document.getElementById('vvNavLinks'),menu=document.getElementById('vvMenuButton'),langBtn=document.getElementById('vvLangToggle')||document.getElementById('langToggle');if(!nav)return;
+let lang='en';try{lang=localStorage.getItem('vibeverse_language')||(navigator.language.toLowerCase().startsWith('ru')?'ru':'en')}catch(e){lang=navigator.language.toLowerCase().startsWith('ru')?'ru':'en'}
+function setLang(l){lang=l;document.documentElement.lang=l;nav.querySelectorAll('[data-vv-en]').forEach(el=>el.textContent=el.getAttribute('data-vv-'+l));if(langBtn)langBtn.textContent=l==='en'?'RU':'EN';try{localStorage.setItem('vibeverse_language',l)}catch(e){};if(typeof window.applyLanguage==='function')window.applyLanguage(l);if(typeof window.setLanguage==='function')window.setLanguage(l);document.dispatchEvent(new CustomEvent('vv-language-change',{detail:{language:l}}));}
+setLang(lang);langBtn?.addEventListener('click',()=>setLang(lang==='en'?'ru':'en'));
+menu?.addEventListener('click',()=>{const open=nav.classList.toggle('open');menu.setAttribute('aria-expanded',String(open));menu.textContent=open?'×':'☰'});
+nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nav.classList.remove('open');menu?.setAttribute('aria-expanded','false');if(menu)menu.textContent='☰';nav.querySelectorAll('details[open]').forEach(d=>d.removeAttribute('open'))}));
+})();
+</script>
+<script id="vv20-enhancements">(()=>{document.querySelectorAll('main section,article,.project-card,.service,.about-art,.step,.card').forEach(el=>el.classList.add('reveal'));if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal').forEach(e=>io.observe(e))}else document.querySelectorAll('.reveal').forEach(e=>e.classList.add('visible'));const y=document.getElementById('year');if(y)y.textContent=new Date().getFullYear();})();</script><script id="vv-demo-localization">(()=>{const pairs={"Мои финансы": "My finances", "Контролируй деньги. Управляй будущим.": "Track your money. Shape your future.", "Общий баланс": "Total balance", "Общий доход": "Total income", "Общие расходы": "Total expenses", "+ Новая операция": "+ New transaction", "Доход": "Income", "Расход": "Expense", "Зарплата": "Salary", "Покупки": "Shopping", "Еда": "Food", "Транспорт": "Transport", "Развлечения": "Entertainment", "Учёба": "Study", "Другое": "Other", "Добавить операцию": "Add transaction", "История операций": "Transaction history", "Все": "All", "Доходы": "Income", "Расходы": "Expenses", "Анализ расходов": "Expense analysis", "Операций пока нет": "No transactions yet", "Удалить": "Delete", "Изменить": "Edit"};const map={ru:{},en:pairs};Object.entries(pairs).forEach(([ru,en])=>map.ru[en]=ru);const reverse=Object.fromEntries(Object.entries(pairs).map(([ru,en])=>[en,ru]));map.ru=pairs;map.en=reverse;let lang='en';try{lang=localStorage.getItem('vibeverse_language')||'en'}catch(e){};const translate=(root=document.body)=>{const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while(n=walker.nextNode()){let t=n.nodeValue;if(!t.trim())continue;let lead=t.match(/^\s*/)[0],tail=t.match(/\s*$/)[0],core=t.trim();if(map[lang][core])n.nodeValue=lead+map[lang][core]+tail;}root.querySelectorAll?.('[placeholder],[title],[aria-label]').forEach(el=>['placeholder','title','aria-label'].forEach(a=>{let v=el.getAttribute(a);if(v&&map[lang][v])el.setAttribute(a,map[lang][v])}));};const run=()=>translate();run();document.addEventListener('vv-language-change',e=>{lang=e.detail?.language||lang;translate()});const obs=new MutationObserver(ms=>ms.forEach(m=>{m.addedNodes.forEach(n=>{if(n.nodeType===1)translate(n);else if(n.nodeType===3){let c=n.nodeValue.trim();if(map[lang][c])n.nodeValue=n.nodeValue.replace(c,map[lang][c])}})}));obs.observe(document.body,{subtree:true,childList:true});})();</script>
+</body>
+</html>

@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIBEVERSE HabitFlow 5.0</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    padding: 30px 16px;
+    font-family: Arial, sans-serif;
+    color: white;
+    background:
+        radial-gradient(circle at 10% 10%, #54218b 0%, transparent 35%),
+        radial-gradient(circle at 90% 80%, #24205c 0%, transparent 35%),
+        linear-gradient(135deg, #080812, #15112b, #090914);
+    background-attachment: fixed;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 35px;
+    animation: appear 0.7s ease;
+}
+
+.logo {
+    color: #bd91ff;
+    font-size: 13px;
+    letter-spacing: 6px;
+    margin-bottom: 14px;
+}
+
+h1 {
+    font-size: 42px;
+    margin-bottom: 12px;
+    background: linear-gradient(90deg, #fff, #c49aff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.subtitle {
+    color: #aaa5bd;
+    font-size: 14px;
+}
+
+.panel {
+    padding: 24px;
+    margin-bottom: 22px;
+    border-radius: 22px;
+    background: rgba(255,255,255,0.055);
+    border: 1px solid rgba(255,255,255,0.13);
+    backdrop-filter: blur(18px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+    transition: 0.3s ease;
+}
+
+.panel:hover {
+    border-color: rgba(189,145,255,0.35);
+    transform: translateY(-2px);
+}
+
+h2 {
+    font-size: 19px;
+    margin-bottom: 20px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.stat-card {
+    padding: 23px;
+    border-radius: 19px;
+    background: linear-gradient(
+        145deg,
+        rgba(129,60,255,0.15),
+        rgba(255,255,255,0.035)
+    );
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    border-color: #9860ed;
+}
+
+.stat-card span {
+    display: block;
+    color: #aaa5bd;
+    font-size: 12px;
+    margin-bottom: 14px;
+}
+
+.stat-card strong {
+    font-size: 29px;
+    color: #c49aff;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 12px;
+    margin-bottom: 13px;
+}
+
+input, select {
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #40365c;
+    background: #171329;
+    color: white;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s;
+}
+
+input:focus, select:focus {
+    border-color: #a46aff;
+    box-shadow: 0 0 0 3px rgba(164,106,255,0.12);
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 11px;
+    padding: 13px 17px;
+    color: white;
+    font-weight: bold;
+    transition: 0.2s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.15);
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+.add-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(90deg, #813cff, #b15cff);
+    box-shadow: 0 5px 20px rgba(129,60,255,0.25);
+}
+
+.habit-list {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+
+.habit-card {
+    padding: 20px;
+    border-radius: 17px;
+    background: rgba(255,255,255,0.045);
+    border: 1px solid rgba(255,255,255,0.09);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    animation: appear 0.35s ease;
+    transition: 0.25s;
+}
+
+.habit-card:hover {
+    background: rgba(255,255,255,0.075);
+    border-color: rgba(189,145,255,0.35);
+}
+
+.habit-info {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.habit-info strong {
+    font-size: 16px;
+}
+
+.habit-info p {
+    color: #aaa5bd;
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+.habit-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+.complete-btn {
+    background: linear-gradient(90deg, #813cff, #a45cff);
+}
+
+.complete-btn.done {
+    background: #276b49;
+}
+
+.edit-btn {
+    background: #57417f;
+}
+
+.delete-btn {
+    background: #713344;
+}
+
+.completed-title {
+    color: #aaa5bd;
+    text-decoration: line-through;
+}
+
+.empty {
+    text-align: center;
+    color: #aaa5bd;
+    padding: 35px 10px;
+    line-height: 1.7;
+}
+
+.progress-track {
+    height: 9px;
+    background: #302747;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 14px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #813cff, #d3aaff);
+    border-radius: 20px;
+    transition: width 0.5s ease;
+}
+
+footer {
+    text-align: center;
+    color: #716b84;
+    font-size: 12px;
+    margin-top: 30px;
+    letter-spacing: 2px;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 650px) {
+    body {
+        padding: 22px 12px;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .panel {
+        padding: 18px;
+    }
+
+    .habit-card {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .habit-actions {
+        width: 100%;
+    }
+
+    .habit-actions button {
+        flex: 1;
+    }
+}
+</style>
+<style>
+/* VIBEVERSE shared navigation */
+.vv-site-header{position:sticky;top:0;z-index:1000;background:rgba(9,9,13,.94);backdrop-filter:blur(18px);border-bottom:1px solid rgba(222,218,255,.13);font-family:Inter,Arial,sans-serif;color:#f4f2fa}
+.vv-navwrap{width:min(1240px,calc(100% - 40px));min-height:74px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.vv-brand{display:flex;align-items:center;gap:11px;white-space:nowrap;text-decoration:none;color:#f4f2fa;font-size:12px;font-weight:800;letter-spacing:.19em}
+.vv-mark{width:34px;height:34px;border:1px solid #b8a2ff;border-radius:50%;display:grid;place-items:center;color:#c8b5ff;font:25px Georgia,serif;position:relative}
+.vv-mark:after{content:"";position:absolute;width:42px;height:13px;border:1px solid #8b6cff;border-radius:50%;transform:rotate(-38deg)}
+.vv-links{display:flex;align-items:center;gap:clamp(12px,2vw,28px);font:11px Inter,Arial,sans-serif;color:#d0cbdc}
+.vv-links a,.vv-links summary{color:inherit;text-decoration:none;cursor:pointer;list-style:none;white-space:nowrap;transition:color .2s}
+.vv-links a:hover,.vv-links summary:hover{color:#c2b1ff}
+.vv-links summary::-webkit-details-marker{display:none}.vv-links summary:after{content:'⌄';margin-left:6px;color:#a997e8}
+.vv-dropdown{position:relative}.vv-dropdown[open] .vv-submenu{display:grid}
+.vv-submenu{display:none;position:absolute;top:calc(100% + 18px);left:-16px;min-width:210px;padding:9px;background:#15131f;border:1px solid rgba(222,218,255,.16);box-shadow:0 18px 50px #0009;border-radius:8px;gap:2px}
+.vv-submenu a{padding:10px 12px;border-radius:5px;white-space:normal}.vv-submenu a:hover{background:#8b6cff20}
+.vv-controls{display:flex;align-items:center;gap:12px}.vv-lang,.vv-menu{background:transparent;color:#f4f2fa;border:1px solid rgba(222,218,255,.2);border-radius:24px;padding:8px 12px;font-size:10px;cursor:pointer}.vv-menu{display:none;font-size:21px;line-height:1;padding:5px 10px}
+@media(max-width:850px){.vv-navwrap{min-height:68px}.vv-menu{display:block}.vv-links{display:none;position:absolute;top:68px;left:0;right:0;background:rgba(9,9,13,.98);border-bottom:1px solid rgba(222,218,255,.14);padding:18px 22px 24px;align-items:stretch;gap:4px;flex-direction:column}.vv-links.open{display:flex}.vv-links>a,.vv-links summary{display:block;padding:12px 8px}.vv-dropdown[open] .vv-submenu{position:static;display:grid;box-shadow:none;margin:0 0 8px 8px;min-width:0}.vv-submenu{border-radius:6px}.vv-submenu a{padding:11px 14px}.vv-links summary:after{float:right}}
+@media(prefers-reduced-motion:reduce){.vv-links a,.vv-links summary{transition:none}}
+</style>
+<style>
+/* VIBEVERSE 2.0 — CINEMATIC COSMOS / DIGITAL BRUTALISM */
+:root{--vv-ice:#e9e7f2;--vv-violet:#9b79ff;--vv-acid:#d7ff72;--vv-dim:#858292;--vv-line:rgba(225,220,255,.17)}
+body{background:#08080b!important;color:var(--vv-ice)!important}body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(ellipse at 85% 8%,rgba(104,65,191,.17),transparent 36%),radial-gradient(ellipse at 8% 85%,rgba(36,61,83,.14),transparent 35%)}
+header,.vv-site-header{background:rgba(7,7,10,.78)!important;backdrop-filter:blur(24px)!important;border-bottom:1px solid var(--vv-line)!important}a,button{transition:color .25s,transform .3s,border-color .3s,background .3s}a:hover{color:var(--vv-violet)}
+.hero,.section,.about,.services,.projects{isolation:isolate} .hero{overflow:hidden!important;position:relative!important}.hero:after{content:"V / V";position:absolute;right:-.08em;bottom:-.25em;font-size:clamp(120px,24vw,360px);font-weight:800;letter-spacing:-.12em;line-height:1;color:rgba(238,232,255,.035);pointer-events:none}
+.hero h1,.hero h2{letter-spacing:-.065em!important;text-transform:none}.hero h1 em,.hero h2 em{color:var(--vv-violet)!important}.eyebrow,.section-kicker,.kicker{color:var(--vv-acid)!important;letter-spacing:.24em!important}.section-title,h2{letter-spacing:-.055em!important}
+.project-card,.card,.service,.step,.point,.contact-panel,.about-art{border-radius:0!important;border-color:var(--vv-line)!important;box-shadow:none!important;transition:transform .45s cubic-bezier(.2,.8,.2,1),border-color .3s,background .3s!important}.project-card:hover,.card:hover,.service:hover,.step:hover{transform:translateY(-6px)!important;border-color:rgba(155,121,255,.65)!important}
+.btn,.cta{border-radius:0!important;position:relative;overflow:hidden}.btn-primary,.cta{background:var(--vv-ice)!important;color:#09090d!important;box-shadow:none!important;font-weight:800!important}.btn-primary:hover,.cta:hover{background:var(--vv-acid)!important;color:#08080b!important;transform:translateY(-3px)}.btn-ghost{border-radius:0!important;border-color:var(--vv-line)!important}
+.vv-mark,.brand-mark{border-radius:0!important;transform:rotate(45deg)}.vv-mark span,.brand-mark{transform:rotate(-45deg)}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}.reveal.visible{opacity:1;transform:none}
+footer,.footer{border-top:1px solid var(--vv-line)!important;background:#08080b!important}footer a:hover,.footer a:hover{color:var(--vv-acid)!important}
+.vv-submenu{background:#09090d!important;border-radius:0!important}.vv-lang,.vv-menu,.lang{border-radius:0!important;border-color:var(--vv-line)!important}
+@media(max-width:760px){.hero{min-height:unset!important}.hero h1{font-size:clamp(55px,15vw,88px)!important}.section{padding:65px 0!important}.vv-links.open,.nav-links.open{background:#08080b!important}.project-grid,.service-layout,.about-layout{gap:20px!important}}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important}}
+</style><style>.vv-contact-hidden{display:none!important}</style>
+<style id="vv-final-accessibility-responsive">
+/* VIBEVERSE final responsive/accessibility safeguards */
+img, video, canvas, svg { max-width: 100%; }
+html { scroll-padding-top: 5rem; }
+body { overflow-wrap: anywhere; }
+@media (max-width: 360px) {
+  button, .btn, .cta { max-width: 100%; }
+  input, select, textarea { max-width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+</style>
+
+<style id="vv-cinematic-page-system">:root{--vv-acid:#d7ff72;--vv-ice:#e8e8f0;--vv-violet:#9b79ff;--vv-line:rgba(231,230,244,.16)}body{background:#08080b!important;color:#ecebf4!important}header,.vv-site-header{background:rgba(7,7,10,.78)!important;backdrop-filter:blur(22px)!important;border-bottom:1px solid var(--vv-line)!important}a:hover{color:var(--vv-acid)!important}.btn,.cta,.vv-lang,.vv-menu{border-radius:0!important}.btn-primary,.cta{background:var(--vv-ice)!important;color:#08080b!important}.btn-primary:hover,.cta:hover{background:var(--vv-acid)!important}.project-card,.card,.service,.step,.point,.contact-panel,.about-art{border-radius:0!important;border-color:var(--vv-line)!important;box-shadow:none!important}.section-title,h1,h2{letter-spacing:-.055em}footer,.footer{border-top:1px solid var(--vv-line)!important;background:#08080b!important}@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition-duration:.01ms!important;animation-duration:.01ms!important}}</style>
+</head>
+
+<body>
+<header class="vv-site-header"><div class="vv-navwrap">
+<a class="vv-brand" href="../project-01/index.html#home" aria-label="VIBEVERSE home"><span class="vv-mark">V</span><span>VIBEVERSE</span></a>
+<nav class="vv-links" id="vvNavLinks" aria-label="Main navigation">
+<a href="../project-01/index.html#home" data-vv-en="Home" data-vv-ru="Главная">Home</a>
+<details class="vv-dropdown"><summary data-vv-en="Projects" data-vv-ru="Проекты">Projects</summary><div class="vv-submenu"><a href="../project-01/projects/portfolio.html" data-vv-en="Portfolio" data-vv-ru="Портфолио">Portfolio</a><a href="../project-01/projects/tasks.html" data-vv-en="Tasks 3.0" data-vv-ru="Задачи 3.0">Tasks 3.0</a><a href="../project-01/projects/finance.html" data-vv-en="Finance 2.0" data-vv-ru="Финансы 2.0">Finance 2.0</a><a href="../project-01/projects/habitflow.html" data-vv-en="HabitFlow 5.0" data-vv-ru="HabitFlow 5.0">HabitFlow 5.0</a></div></details>
+<details class="vv-dropdown"><summary data-vv-en="Services" data-vv-ru="Услуги">Services</summary><div class="vv-submenu"><a href="../project-01/services/web-development.html" data-vv-en="Web development" data-vv-ru="Веб-разработка">Web development</a><a href="../project-01/services/ui-ux-design.html" data-vv-en="UI / UX design" data-vv-ru="UI / UX дизайн">UI / UX design</a><a href="../project-01/services/3d-animation.html" data-vv-en="3D & animation" data-vv-ru="3D и анимация">3D & animation</a><a href="../project-01/services/optimization.html" data-vv-en="Optimization" data-vv-ru="Оптимизация">Optimization</a><a href="../project-01/services/telegram-bots.html" data-vv-en="Telegram bots" data-vv-ru="Telegram-боты">Telegram bots</a></div></details>
+<a href="../project-01/about.html" data-vv-en="About" data-vv-ru="О нас">About</a><span class="vv-contact-hidden">Contact</span>
+</nav><div class="vv-controls"><button class="vv-lang" id="vvLangToggle" type="button" aria-label="Switch language">RU</button><button class="vv-menu" id="vvMenuButton" type="button" aria-label="Open menu" aria-expanded="false">☰</button></div>
+</div></header>
+
+
+<div class="container">
+
+<header>
+    <div class="logo">VIBEVERSE</div>
+    <h1>HabitFlow 5.0</h1>
+    <p class="subtitle">Маленькие шаги. Большие результаты.</p>
+</header>
+
+<section class="stats">
+
+    <div class="stat-card">
+        <span>Всего привычек</span>
+        <strong id="totalHabits">0</strong>
+    </div>
+
+    <div class="stat-card">
+        <span>Выполнено сегодня</span>
+        <strong id="completedToday">0</strong>
+    </div>
+
+    <div class="stat-card">
+        <span>Прогресс дня</span>
+        <strong id="progress">0%</strong>
+        <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+    </div>
+
+</section>
+
+<section class="panel">
+    <h2>+ Новая привычка</h2>
+
+    <form id="habitForm">
+
+        <div class="form-grid">
+
+            <input
+                id="habitInput"
+                type="text"
+                placeholder="Например: Читать 20 минут"
+                maxlength="60"
+                required
+            >
+
+            <select id="categoryInput">
+                <option value="Здоровье">Здоровье</option>
+                <option value="Учёба">Учёба</option>
+                <option value="Спорт">Спорт</option>
+                <option value="Развитие">Развитие</option>
+                <option value="Другое">Другое</option>
+            </select>
+
+        </div>
+
+        <button class="add-btn" type="submit">
+            Добавить привычку
+        </button>
+
+    </form>
+</section>
+
+<section class="panel">
+    <h2>Мои привычки</h2>
+    <div class="habit-list" id="habitList"></div>
+</section>
+
+<footer>VIBEVERSE HABITFLOW 5.0</footer>
+
+</div>
+
+<script>
+
+const habitForm = document.getElementById("habitForm");
+const habitInput = document.getElementById("habitInput");
+const categoryInput = document.getElementById("categoryInput");
+const habitList = document.getElementById("habitList");
+
+const totalHabits = document.getElementById("totalHabits");
+const completedToday = document.getElementById("completedToday");
+const progress = document.getElementById("progress");
+const progressFill = document.getElementById("progressFill");
+
+const STORAGE_KEY = "vibeverse_habits";
+
+function today() {
+    const date = new Date();
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
+function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
+function loadHabits() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw === null) return [];
+        const saved = JSON.parse(raw);
+
+        if (!Array.isArray(saved)) {
+            throw new Error("Сохранённая история привычек имеет неверный формат.");
+        }
+        const validHabits = saved.filter(habit => habit && typeof habit === "object" && !Array.isArray(habit));
+        if (validHabits.length !== saved.length) {
+            throw new Error("В истории есть некорректные записи привычек.");
+        }
+
+        return validHabits.map(habit => {
+            const history = Array.isArray(habit.history)
+                ? [...habit.history]
+                : [];
+
+            if (
+                habit.completedDate &&
+                !history.includes(habit.completedDate)
+            ) {
+                history.push(habit.completedDate);
+            }
+
+            return {
+                ...habit,
+                id: habit.id ?? Date.now() + Math.random(),
+                title: habit.title || "Новая привычка",
+                category: habit.category || "Другое",
+                history,
+                completedDate: history.includes(today())
+                    ? today()
+                    : (habit.completedDate || null)
+            };
+        });
+
+    } catch (error) {
+        habitsLoadFailed = true;
+        console.error("Ошибка загрузки. Исходные данные сохранены без изменений:", error);
+        alert("Не удалось прочитать историю привычек. Данные не будут перезаписаны.");
+        return [];
+    }
+}
+
+let habitsLoadFailed = false;
+let habits = loadHabits();
+
+function saveHabits() {
+    if (habitsLoadFailed) {
+        alert("Сохранение заблокировано: сначала необходимо восстановить данные привычек.");
+        return false;
+    }
+    try {
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(habits)
+        );
+        return true;
+    } catch (error) {
+        console.error("Ошибка сохранения:", error);
+        alert("Не удалось сохранить привычки. Изменения не подтверждены.");
+        return false;
+    }
+}
+
+function getStreak(habit) {
+    const dates = [...new Set(habit.history || [])]
+        .sort()
+        .reverse();
+
+    if (dates.length === 0) return 0;
+
+    const currentDate = new Date(today() + "T00:00:00");
+    const latestDate = new Date(dates[0] + "T00:00:00");
+
+    const difference = Math.round(
+        (currentDate - latestDate) / 86400000
+    );
+
+    if (difference > 1 || difference < 0) return 0;
+
+    let streak = 0;
+    const expectedDate = new Date(latestDate);
+
+    for (const date of dates) {
+        if (date !== formatDate(expectedDate)) break;
+
+        streak++;
+        expectedDate.setDate(expectedDate.getDate() - 1);
+    }
+
+    return streak;
+}
+
+function updateStats() {
+    const total = habits.length;
+
+    const completed = habits.filter(
+        habit => habit.history.includes(today())
+    ).length;
+
+    const percent = total === 0
+        ? 0
+        : Math.round((completed / total) * 100);
+
+    totalHabits.textContent = total;
+    completedToday.textContent = completed;
+    progress.textContent = percent + "%";
+    progressFill.style.width = percent + "%";
+}
+
+function renderHabits() {
+    habitList.innerHTML = "";
+
+    if (habits.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "Здесь пока нет привычек ✨Добавь свою первую привычку!";
+        habitList.appendChild(empty);
+
+        updateStats();
+        return;
+    }
+
+    habits.forEach(habit => {
+        const isCompleted = habit.history.includes(today());
+
+        const element = document.createElement("div");
+        element.className = "habit-card";
+
+        const info = document.createElement("div");
+        info.className = "habit-info";
+
+        const title = document.createElement("strong");
+        title.textContent = habit.title;
+
+        if (isCompleted) {
+            title.classList.add("completed-title");
+        }
+
+        const category = document.createElement("p");
+        category.textContent = "📌 " + habit.category;
+
+        const streakText = document.createElement("p");
+        streakText.textContent =
+            `🔥 Серия: ${getStreak(habit)} дн.`;
+
+        info.appendChild(title);
+        info.appendChild(category);
+        info.appendChild(streakText);
+
+        const actions = document.createElement("div");
+        actions.className = "habit-actions";
+
+        const completeButton = document.createElement("button");
+        completeButton.className = "complete-btn";
+
+        if (isCompleted) {
+            completeButton.textContent = "Выполнено ✓";
+            completeButton.classList.add("done");
+        } 
+else
+
+{
+        
+            completeButton.textContent = "Выполнить";
+        }
+
+        completeButton.addEventListener("click", () => {
+            const previousHistory = [...habit.history];
+            const previousCompleted = habit.completed;
+            const previousCompletedDate = habit.completedDate;
+
+            if (habit.history.includes(today())) {
+                habit.history = habit.history.filter(
+                    date => date !== today()
+                );
+            } else {
+                habit.history.push(today());
+            }
+
+            habit.completed = habit.history.includes(today());
+            habit.completedDate = habit.completed ? today() : null;
+
+            if (!saveHabits()) {
+                habit.history = previousHistory;
+                habit.completed = previousCompleted;
+                habit.completedDate = previousCompletedDate;
+                return;
+            }
+            renderHabits();
+        });
+
+        const editButton = document.createElement("button");
+        editButton.className = "edit-btn";
+        editButton.textContent = "Изменить";
+
+        editButton.addEventListener("click", () => {
+            const newTitle = prompt(
+                "Измени название привычки:",
+                habit.title
+            );
+
+            if (newTitle === null) return;
+
+            if (newTitle.trim() === "") {
+                alert("Название не может быть пустым!");
+                return;
+            }
+
+            const newCategory = prompt(
+                "Измени категорию привычки:",
+                habit.category
+            );
+
+            if (newCategory === null) return;
+
+            const previousTitle = habit.title;
+            const previousCategory = habit.category;
+            habit.title = newTitle.trim();
+            habit.category = newCategory.trim() || "Другое";
+
+            if (!saveHabits()) {
+                habit.title = previousTitle;
+                habit.category = previousCategory;
+                return;
+            }
+            renderHabits();
+        });
+
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "delete-btn";
+        deleteButton.textContent = "Удалить";
+
+        deleteButton.addEventListener("click", () => {
+            if (!confirm("Удалить эту привычку?")) return;
+
+            const previousHabits = habits;
+            habits = habits.filter(
+                item => item.id !== habit.id
+            );
+
+            if (!saveHabits()) {
+                habits = previousHabits;
+                return;
+            }
+            renderHabits();
+        });
+
+        actions.appendChild(completeButton);
+        actions.appendChild(editButton);
+        actions.appendChild(deleteButton);
+
+        element.appendChild(info);
+        element.appendChild(actions);
+
+        habitList.appendChild(element);
+    });
+
+    updateStats();
+}
+
+habitForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const title = habitInput.value.trim();
+    const category = categoryInput.value;
+
+    if (!title) {
+        alert("Введите название привычки!");
+        return;
+    }
+
+    habits.push({
+        id: Date.now() + Math.random(),
+        title,
+        category,
+        completed: false,
+        completedDate: null,
+        history: []
+    });
+
+    if (!saveHabits()) {
+        habits.pop();
+        return;
+    }
+    renderHabits();
+    habitForm.reset();
+});
+
+renderHabits();
+
+</script>
+
+<script>
+(()=>{const nav=document.getElementById('vvNavLinks'),menu=document.getElementById('vvMenuButton'),langBtn=document.getElementById('vvLangToggle')||document.getElementById('langToggle');if(!nav)return;
+let lang='en';try{lang=localStorage.getItem('vibeverse_language')||(navigator.language.toLowerCase().startsWith('ru')?'ru':'en')}catch(e){lang=navigator.language.toLowerCase().startsWith('ru')?'ru':'en'}
+function setLang(l){lang=l;document.documentElement.lang=l;nav.querySelectorAll('[data-vv-en]').forEach(el=>el.textContent=el.getAttribute('data-vv-'+l));if(langBtn)langBtn.textContent=l==='en'?'RU':'EN';try{localStorage.setItem('vibeverse_language',l)}catch(e){};if(typeof window.applyLanguage==='function')window.applyLanguage(l);if(typeof window.setLanguage==='function')window.setLanguage(l);document.dispatchEvent(new CustomEvent('vv-language-change',{detail:{language:l}}));}
+setLang(lang);langBtn?.addEventListener('click',()=>setLang(lang==='en'?'ru':'en'));
+menu?.addEventListener('click',()=>{const open=nav.classList.toggle('open');menu.setAttribute('aria-expanded',String(open));menu.textContent=open?'×':'☰'});
+nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nav.classList.remove('open');menu?.setAttribute('aria-expanded','false');if(menu)menu.textContent='☰';nav.querySelectorAll('details[open]').forEach(d=>d.removeAttribute('open'))}));
+})();
+</script>
+<script id="vv20-enhancements">(()=>{document.querySelectorAll('main section,article,.project-card,.service,.about-art,.step,.card').forEach(el=>el.classList.add('reveal'));if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal').forEach(e=>io.observe(e))}else document.querySelectorAll('.reveal').forEach(e=>e.classList.add('visible'));const y=document.getElementById('year');if(y)y.textContent=new Date().getFullYear();})();</script><script id="vv-demo-localization">(()=>{const pairs={"HabitFlow 5.0": "HabitFlow 5.0", "Маленькие шаги. Большие результаты.": "Small steps. Big results.", "Всего привычек": "Total habits", "Выполнено сегодня": "Completed today", "Прогресс дня": "Daily progress", "+ Новая привычка": "+ New habit", "Здоровье": "Health", "Учёба": "Study", "Спорт": "Fitness", "Развитие": "Growth", "Другое": "Other", "Добавить привычку": "Add habit", "Мои привычки": "My habits", "Удалить": "Delete", "Изменить": "Edit", "Выполнено": "Completed", "Сегодня": "Today"};const map={ru:{},en:pairs};Object.entries(pairs).forEach(([ru,en])=>map.ru[en]=ru);const reverse=Object.fromEntries(Object.entries(pairs).map(([ru,en])=>[en,ru]));map.ru=pairs;map.en=reverse;let lang='en';try{lang=localStorage.getItem('vibeverse_language')||'en'}catch(e){};const translate=(root=document.body)=>{const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while(n=walker.nextNode()){let t=n.nodeValue;if(!t.trim())continue;let lead=t.match(/^\s*/)[0],tail=t.match(/\s*$/)[0],core=t.trim();if(map[lang][core])n.nodeValue=lead+map[lang][core]+tail;}root.querySelectorAll?.('[placeholder],[title],[aria-label]').forEach(el=>['placeholder','title','aria-label'].forEach(a=>{let v=el.getAttribute(a);if(v&&map[lang][v])el.setAttribute(a,map[lang][v])}));};const run=()=>translate();run();document.addEventListener('vv-language-change',e=>{lang=e.detail?.language||lang;translate()});const obs=new MutationObserver(ms=>ms.forEach(m=>{m.addedNodes.forEach(n=>{if(n.nodeType===1)translate(n);else if(n.nodeType===3){let c=n.nodeValue.trim();if(map[lang][c])n.nodeValue=n.nodeValue.replace(c,map[lang][c])}})}));obs.observe(document.body,{subtree:true,childList:true});})();</script>
+</body>
+</html>

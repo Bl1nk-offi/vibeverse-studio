@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIBEVERSE Tasks 3.0</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    padding: 35px 16px;
+    font-family: Arial, sans-serif;
+    color: white;
+    background:
+        radial-gradient(circle at top left, #442078, transparent 40%),
+        linear-gradient(135deg, #090914, #15112b, #090914);
+}
+
+.container {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo {
+    color: #bd91ff;
+    font-size: 14px;
+    letter-spacing: 5px;
+    margin-bottom: 12px;
+}
+
+h1 {
+    font-size: 38px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #aaa5bd;
+}
+
+.panel {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(12px);
+}
+
+h2 {
+    font-size: 18px;
+    margin-bottom: 16px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.stat {
+    text-align: center;
+    background: rgba(255,255,255,0.05);
+    padding: 18px 8px;
+    border-radius: 14px;
+}
+
+.stat strong {
+    display: block;
+    font-size: 27px;
+    color: #c49aff;
+    margin-bottom: 5px;
+}
+
+.stat span {
+    font-size: 12px;
+    color: #aaa5bd;
+}
+
+.progress-section {
+    margin-bottom: 20px;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    color: #aaa5bd;
+    font-size: 13px;
+    margin-bottom: 9px;
+}
+
+.progress-track {
+    height: 11px;
+    border-radius: 20px;
+    background: #29213d;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #813cff, #d18aff);
+    border-radius: 20px;
+    transition: width 0.3s;
+}
+
+input, select {
+    width: 100%;
+    padding: 13px;
+    border-radius: 10px;
+    border: 1px solid #40365c;
+    background: #171329;
+    color: white;
+    outline: none;
+    font-size: 14px;
+}
+
+input:focus, select:focus {
+    border-color: #a66cff;
+}
+
+input[type="datetime-local"] {
+    color-scheme: dark;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.form-bottom {
+    margin-bottom: 12px;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 16px;
+    color: white;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.15);
+}
+
+.add-btn {
+    width: 100%;
+    background: linear-gradient(90deg, #813cff, #b15cff);
+}
+
+.filters {
+    display: flex;
+    gap: 9px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.filter-btn {
+    background: #27203e;
+    color: #c5bdd8;
+    padding: 10px 15px;
+}
+
+.filter-btn.active {
+    background: #8745e8;
+    color: white;
+}
+
+.search {
+    margin-bottom: 15px;
+}
+
+.sort-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.clear-btn {
+    background: #562936;
+}
+
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.task {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 16px;
+    border-radius: 13px;
+    background: rgba(255,255,255,0.055);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.task.done .task-name {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+.task.overdue {
+    border-color: rgba(255,100,100,0.5);
+}
+
+.task-check {
+    width: 19px;
+    height: 19px;
+    accent-color: #a66cff;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.task-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.task-name {
+    overflow-wrap: anywhere;
+    margin-bottom: 8px;
+}
+
+.task-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    font-size: 11px;
+    color: #aaa5bd;
+}
+
+.tag {
+    padding: 5px 8px;   
+    border-radius: 20px;
+    background: #302747;
+}
+
+.priority-high {
+    color: #ff8585;
+}
+
+.priority-medium {
+    color: #ffd477;
+}
+
+.priority-low {
+    color: #8ee6ad;
+}
+
+.deadline {
+    color: #bca3ff;
+}
+
+.deadline.late {
+    color: #ff8585;
+}
+
+.task-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    padding: 8px 10px;
+    background: #302747;
+    font-size: 12px;
+}
+
+.delete-btn {
+    background: #562936;
+}
+
+.empty {
+    text-align: center;
+    color: #aaa5bd;
+    padding: 35px 10px;
+}
+
+footer {
+    text-align: center;
+    color: #716b84;
+    font-size: 12px;
+    margin-top: 25px;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 25px 12px;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+
+    .panel {
+        padding: 17px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .task {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .task-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .sort-row {
+        grid-template-columns: 1fr;
+    }
+
+    .stats {
+        gap: 7px;
+    }
+}
+</style>
+<style>
+/* VIBEVERSE shared navigation */
+.vv-site-header{position:sticky;top:0;z-index:1000;background:rgba(9,9,13,.94);backdrop-filter:blur(18px);border-bottom:1px solid rgba(222,218,255,.13);font-family:Inter,Arial,sans-serif;color:#f4f2fa}
+.vv-navwrap{width:min(1240px,calc(100% - 40px));min-height:74px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.vv-brand{display:flex;align-items:center;gap:11px;white-space:nowrap;text-decoration:none;color:#f4f2fa;font-size:12px;font-weight:800;letter-spacing:.19em}
+.vv-mark{width:34px;height:34px;border:1px solid #b8a2ff;border-radius:50%;display:grid;place-items:center;color:#c8b5ff;font:25px Georgia,serif;position:relative}
+.vv-mark:after{content:"";position:absolute;width:42px;height:13px;border:1px solid #8b6cff;border-radius:50%;transform:rotate(-38deg)}
+.vv-links{display:flex;align-items:center;gap:clamp(12px,2vw,28px);font:11px Inter,Arial,sans-serif;color:#d0cbdc}
+.vv-links a,.vv-links summary{color:inherit;text-decoration:none;cursor:pointer;list-style:none;white-space:nowrap;transition:color .2s}
+.vv-links a:hover,.vv-links summary:hover{color:#c2b1ff}
+.vv-links summary::-webkit-details-marker{display:none}.vv-links summary:after{content:'⌄';margin-left:6px;color:#a997e8}
+.vv-dropdown{position:relative}.vv-dropdown[open] .vv-submenu{display:grid}
+.vv-submenu{display:none;position:absolute;top:calc(100% + 18px);left:-16px;min-width:210px;padding:9px;background:#15131f;border:1px solid rgba(222,218,255,.16);box-shadow:0 18px 50px #0009;border-radius:8px;gap:2px}
+.vv-submenu a{padding:10px 12px;border-radius:5px;white-space:normal}.vv-submenu a:hover{background:#8b6cff20}
+.vv-controls{display:flex;align-items:center;gap:12px}.vv-lang,.vv-menu{background:transparent;color:#f4f2fa;border:1px solid rgba(222,218,255,.2);border-radius:24px;padding:8px 12px;font-size:10px;cursor:pointer}.vv-menu{display:none;font-size:21px;line-height:1;padding:5px 10px}
+@media(max-width:850px){.vv-navwrap{min-height:68px}.vv-menu{display:block}.vv-links{display:none;position:absolute;top:68px;left:0;right:0;background:rgba(9,9,13,.98);border-bottom:1px solid rgba(222,218,255,.14);padding:18px 22px 24px;align-items:stretch;gap:4px;flex-direction:column}.vv-links.open{display:flex}.vv-links>a,.vv-links summary{display:block;padding:12px 8px}.vv-dropdown[open] .vv-submenu{position:static;display:grid;box-shadow:none;margin:0 0 8px 8px;min-width:0}.vv-submenu{border-radius:6px}.vv-submenu a{padding:11px 14px}.vv-links summary:after{float:right}}
+@media(prefers-reduced-motion:reduce){.vv-links a,.vv-links summary{transition:none}}
+</style>
+<style>
+/* VIBEVERSE 2.0 — CINEMATIC COSMOS / DIGITAL BRUTALISM */
+:root{--vv-ice:#e9e7f2;--vv-violet:#9b79ff;--vv-acid:#d7ff72;--vv-dim:#858292;--vv-line:rgba(225,220,255,.17)}
+body{background:#08080b!important;color:var(--vv-ice)!important}body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(ellipse at 85% 8%,rgba(104,65,191,.17),transparent 36%),radial-gradient(ellipse at 8% 85%,rgba(36,61,83,.14),transparent 35%)}
+header,.vv-site-header{background:rgba(7,7,10,.78)!important;backdrop-filter:blur(24px)!important;border-bottom:1px solid var(--vv-line)!important}a,button{transition:color .25s,transform .3s,border-color .3s,background .3s}a:hover{color:var(--vv-violet)}
+.hero,.section,.about,.services,.projects{isolation:isolate} .hero{overflow:hidden!important;position:relative!important}.hero:after{content:"V / V";position:absolute;right:-.08em;bottom:-.25em;font-size:clamp(120px,24vw,360px);font-weight:800;letter-spacing:-.12em;line-height:1;color:rgba(238,232,255,.035);pointer-events:none}
+.hero h1,.hero h2{letter-spacing:-.065em!important;text-transform:none}.hero h1 em,.hero h2 em{color:var(--vv-violet)!important}.eyebrow,.section-kicker,.kicker{color:var(--vv-acid)!important;letter-spacing:.24em!important}.section-title,h2{letter-spacing:-.055em!important}
+.project-card,.card,.service,.step,.point,.contact-panel,.about-art{border-radius:0!important;border-color:var(--vv-line)!important;box-shadow:none!important;transition:transform .45s cubic-bezier(.2,.8,.2,1),border-color .3s,background .3s!important}.project-card:hover,.card:hover,.service:hover,.step:hover{transform:translateY(-6px)!important;border-color:rgba(155,121,255,.65)!important}
+.btn,.cta{border-radius:0!important;position:relative;overflow:hidden}.btn-primary,.cta{background:var(--vv-ice)!important;color:#09090d!important;box-shadow:none!important;font-weight:800!important}.btn-primary:hover,.cta:hover{background:var(--vv-acid)!important;color:#08080b!important;transform:translateY(-3px)}.btn-ghost{border-radius:0!important;border-color:var(--vv-line)!important}
+.vv-mark,.brand-mark{border-radius:0!important;transform:rotate(45deg)}.vv-mark span,.brand-mark{transform:rotate(-45deg)}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}.reveal.visible{opacity:1;transform:none}
+footer,.footer{border-top:1px solid var(--vv-line)!important;background:#08080b!important}footer a:hover,.footer a:hover{color:var(--vv-acid)!important}
+.vv-submenu{background:#09090d!important;border-radius:0!important}.vv-lang,.vv-menu,.lang{border-radius:0!important;border-color:var(--vv-line)!important}
+@media(max-width:760px){.hero{min-height:unset!important}.hero h1{font-size:clamp(55px,15vw,88px)!important}.section{padding:65px 0!important}.vv-links.open,.nav-links.open{background:#08080b!important}.project-grid,.service-layout,.about-layout{gap:20px!important}}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important}}
+</style><style>.vv-contact-hidden{display:none!important}</style>
+<style id="vv-final-accessibility-responsive">
+/* VIBEVERSE final responsive/accessibility safeguards */
+img, video, canvas, svg { max-width: 100%; }
+html { scroll-padding-top: 5rem; }
+body { overflow-wrap: anywhere; }
+@media (max-width: 360px) {
+  button, .btn, .cta { max-width: 100%; }
+  input, select, textarea { max-width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+</style>
+
+<style id="vv-cinematic-page-system">:root{--vv-acid:#d7ff72;--vv-ice:#e8e8f0;--vv-violet:#9b79ff;--vv-line:rgba(231,230,244,.16)}body{background:#08080b!important;color:#ecebf4!important}header,.vv-site-header{background:rgba(7,7,10,.78)!important;backdrop-filter:blur(22px)!important;border-bottom:1px solid var(--vv-line)!important}a:hover{color:var(--vv-acid)!important}.btn,.cta,.vv-lang,.vv-menu{border-radius:0!important}.btn-primary,.cta{background:var(--vv-ice)!important;color:#08080b!important}.btn-primary:hover,.cta:hover{background:var(--vv-acid)!important}.project-card,.card,.service,.step,.point,.contact-panel,.about-art{border-radius:0!important;border-color:var(--vv-line)!important;box-shadow:none!important}.section-title,h1,h2{letter-spacing:-.055em}footer,.footer{border-top:1px solid var(--vv-line)!important;background:#08080b!important}@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition-duration:.01ms!important;animation-duration:.01ms!important}}</style>
+</head>
+
+<body>
+<header class="vv-site-header"><div class="vv-navwrap">
+<a class="vv-brand" href="../project-01/index.html#home" aria-label="VIBEVERSE home"><span class="vv-mark">V</span><span>VIBEVERSE</span></a>
+<nav class="vv-links" id="vvNavLinks" aria-label="Main navigation">
+<a href="../project-01/index.html#home" data-vv-en="Home" data-vv-ru="Главная">Home</a>
+<details class="vv-dropdown"><summary data-vv-en="Projects" data-vv-ru="Проекты">Projects</summary><div class="vv-submenu"><a href="../project-01/projects/portfolio.html" data-vv-en="Portfolio" data-vv-ru="Портфолио">Portfolio</a><a href="../project-01/projects/tasks.html" data-vv-en="Tasks 3.0" data-vv-ru="Задачи 3.0">Tasks 3.0</a><a href="../project-01/projects/finance.html" data-vv-en="Finance 2.0" data-vv-ru="Финансы 2.0">Finance 2.0</a><a href="../project-01/projects/habitflow.html" data-vv-en="HabitFlow 5.0" data-vv-ru="HabitFlow 5.0">HabitFlow 5.0</a></div></details>
+<details class="vv-dropdown"><summary data-vv-en="Services" data-vv-ru="Услуги">Services</summary><div class="vv-submenu"><a href="../project-01/services/web-development.html" data-vv-en="Web development" data-vv-ru="Веб-разработка">Web development</a><a href="../project-01/services/ui-ux-design.html" data-vv-en="UI / UX design" data-vv-ru="UI / UX дизайн">UI / UX design</a><a href="../project-01/services/3d-animation.html" data-vv-en="3D & animation" data-vv-ru="3D и анимация">3D & animation</a><a href="../project-01/services/optimization.html" data-vv-en="Optimization" data-vv-ru="Оптимизация">Optimization</a><a href="../project-01/services/telegram-bots.html" data-vv-en="Telegram bots" data-vv-ru="Telegram-боты">Telegram bots</a></div></details>
+<a href="../project-01/about.html" data-vv-en="About" data-vv-ru="О нас">About</a><span class="vv-contact-hidden">Contact</span>
+</nav><div class="vv-controls"><button class="vv-lang" id="vvLangToggle" type="button" aria-label="Switch language">RU</button><button class="vv-menu" id="vvMenuButton" type="button" aria-label="Open menu" aria-expanded="false">☰</button></div>
+</div></header>
+
+
+<div class="container">
+
+<header>
+    <div class="logo">VIBEVERSE</div>
+    <h1>Мои задачи</h1>
+    <p class="subtitle">Планируй. Действуй. Достигай.</p>
+</header>
+
+<section class="stats">
+    <div class="stat">
+        <strong id="totalCount">0</strong>
+        <span>Всего задач</span>
+    </div>
+    <div class="stat">
+        <strong id="activeCount">0</strong>
+        <span>Активные</span>
+    </div>
+    <div class="stat">
+        <strong id="doneCount">0</strong>
+        <span>Выполнено</span>
+    </div>
+</section>
+
+<section class="panel">
+    <h2>Мой прогресс</h2>
+    <div class="progress-section">
+        <div class="progress-info">
+            <span>Выполнение задач</span>
+            <span id="progressText">0%</span>
+        </div>
+        <div class="progress-track">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </div>
+</section>
+
+<section class="panel">
+    <h2>+ Новая задача</h2>
+
+    <form id="taskForm">
+        <div class="form-grid">
+            <input
+                id="taskInput"
+                type="text"
+                placeholder="Что нужно сделать?"
+                maxlength="100"
+                required
+            >
+
+            <select id="categoryInput">
+                <option value="Личное">Личное</option>
+                <option value="Работа">Работа</option>
+                <option value="Учёба">Учёба</option>
+                <option value="Другое">Другое</option>
+            </select>
+
+            <select id="priorityInput">
+                <option value="low">Низкий приоритет</option>
+                <option value="medium" selected>Средний приоритет</option>
+                <option value="high">Высокий приоритет</option>
+            </select>
+        </div>
+
+        <div class="form-bottom">
+            <input
+                id="deadlineInput"
+                type="datetime-local"
+            >
+        </div>
+
+        <button class="add-btn" type="submit">
+            Добавить задачу
+        </button>
+    </form>
+</section>
+
+<section class="panel">
+    <h2>Мой список</h2>
+
+    <input
+        class="search"
+        id="searchInput"
+        type="text"
+        placeholder="Поиск задач..."
+    >
+
+    <div class="filters">
+        <button class="filter-btn active" data-filter="all">Все</button>
+        <button class="filter-btn" data-filter="active">Активные</button>
+        <button class="filter-btn" data-filter="done">Выполненные</button>
+    </div>
+
+    <div class="sort-row">
+        <select id="sortInput">
+            <option value="newest">Сначала новые</option>
+            <option value="priority">По приоритету</option>
+            <option value="deadline">По сроку выполнения</option>
+        </select>
+
+        <button class="clear-btn" id="clearDone">
+            Очистить выполненные
+        </button>
+    </div>
+
+    <div class="task-list" id="taskList"></div>
+</section>
+
+<footer>
+    VIBEVERSE TASKS 3.0 · Твои цели начинаются здесь
+</footer>
+
+</div>
+
+<script>
+const taskForm = document.getElementById("taskForm");
+const taskInput = document.getElementById("taskInput");
+const categoryInput = document.getElementById("categoryInput");
+const priorityInput = document.getElementById("priorityInput");
+const deadlineInput = document.getElementById("deadlineInput");
+const taskList = document.getElementById("taskList");
+const searchInput = document.getElementById("searchInput");
+const sortInput = document.getElementById("sortInput");
+
+const totalCount = document.getElementById("totalCount");
+const activeCount = document.getElementById("activeCount");
+const doneCount = document.getElementById("doneCount");
+const progressBar = document.getElementById("progressBar");
+const progressText = document.getElementById("progressText");
+
+let tasks = [];
+let tasksLoadFailed = false;
+let currentFilter = "all";
+
+try {
+    const currentRaw = localStorage.getItem("vibeverse_tasks");
+    const legacyRaw = currentRaw === null ? localStorage.getItem("vibeverseTasks") : null;
+    const raw = currentRaw !== null ? currentRaw : legacyRaw;
+
+    if (raw !== null) {
+        const savedTasks = JSON.parse(raw);
+        if (!Array.isArray(savedTasks)) {
+            throw new Error("Сохранённые задачи имеют неверный формат.");
+        }
+
+        if (currentRaw === null && legacyRaw !== null) {
+            // Legacy v1 schema: { text, completed }. Keep the old key untouched.
+            tasks = savedTasks.map((task, index) => {
+                if (!task || typeof task !== "object" || typeof task.text !== "string" || typeof task.completed !== "boolean") {
+                    throw new Error("В старом списке есть некорректная задача.");
+                }
+                return {
+                    id: String(task.id ?? `legacy-${index}-${Date.now()}`),
+                    title: task.text.slice(0, 100),
+                    category: "Другое",
+                    priority: "medium",
+                    deadline: "",
+                    done: task.completed,
+                    createdAt: Number.isFinite(task.createdAt) ? task.createdAt : Date.now()
+                };
+            });
+        } else {
+            const validTasks = savedTasks.filter(task =>
+                task && typeof task === "object" && !Array.isArray(task) &&
+                typeof task.id === "string" && typeof task.title === "string" &&
+                typeof task.done === "boolean"
+            );
+            if (validTasks.length !== savedTasks.length) {
+                throw new Error("В сохранённом списке есть некорректные записи.");
+            }
+            tasks = validTasks.map(task => ({
+                ...task,
+                category: task.category || "Другое",
+                priority: task.priority || "medium",
+                deadline: task.deadline || ""
+            }));
+        }
+    }
+} catch (error) {
+    tasks = [];
+    tasksLoadFailed = true;
+    console.error("Не удалось безопасно прочитать задачи. Исходные данные не изменены.", error);
+    alert("Не удалось прочитать сохранённые задачи. Данные защищены от перезаписи. Сначала сделайте резервную копию или восстановите хранилище.");
+}
+
+function saveTasks() {
+    if (tasksLoadFailed) {
+        alert("Сохранение заблокировано: сначала необходимо восстановить данные задач.");
+        return false;
+    }
+    try {
+        localStorage.setItem("vibeverse_tasks", JSON.stringify(tasks));
+        return true;
+    } catch (error) {
+        console.error("Ошибка сохранения задач:", error);
+        alert("Не удалось сохранить задачи. Проверьте свободное место в браузере.");
+        return false;
+    }
+}
+
+function formatDeadline(value) {
+    if (!value) return "Без дедлайна";
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return "Некорректная дата";
+    }
+
+    return date.toLocaleString("ru-RU", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+}
+
+function renderTasks() {
+    taskList.innerHTML = "";
+
+    const search = searchInput.value.toLowerCase();
+
+    let filteredTasks = tasks.filter(task => {
+        const matchesFilter =
+            currentFilter === "all" ||
+            (currentFilter === "active" && !task.done) ||
+            (currentFilter === "done" && task.done);
+
+        const matchesSearch =
+            task.title.toLowerCase().includes(search);
+
+        return matchesFilter && matchesSearch;
+    });
+
+    const priorityOrder = {
+        high: 3,
+        medium: 2,
+        low: 1
+    };
+
+    if (sortInput.value === "priority") {
+        filteredTasks.sort((a, b) =>
+            (priorityOrder[b.priority] || 0) -
+            (priorityOrder[a.priority] || 0)
+        );
+    }
+
+    if (sortInput.value === "deadline") {
+        filteredTasks.sort((a, b) => {
+            if (!a.deadline) return 1;
+            if (!b.deadline) return -1;
+            return new Date(a.deadline) - new Date(b.deadline);
+        });
+    }
+
+    if (sortInput.value === "newest") {
+        filteredTasks.sort((a, b) =>
+            (b.createdAt || 0) - (a.createdAt || 0)
+        );
+    }
+
+    totalCount.textContent = tasks.length;
+
+    const completed = tasks.filter(task => task.done).length;
+    const active = tasks.length - completed;
+
+    activeCount.textContent = active;
+    doneCount.textContent = completed;
+
+    const progress = tasks.length
+        ? Math.round(completed / tasks.length * 100)
+        : 0;
+
+    progressBar.style.width = progress + "%";
+    progressText.textContent = progress + "%";
+
+    if (filteredTasks.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "Задачи не найдены ✨";
+        taskList.appendChild(empty);
+        return;
+    }
+
+    filteredTasks.forEach(task => {
+        const element = document.createElement("div");
+
+        const isOverdue = task.deadline &&
+            new Date(task.deadline) < new Date() &&
+            !task.done;
+
+        element.className = "task" +
+        (task.done ? " done" : "") +
+        (isOverdue ? " overdue" : "");
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.className = "task-check";
+        checkbox.checked = task.done;
+
+        checkbox.addEventListener("change", () => {
+            const previousDone = task.done;
+            task.done = checkbox.checked;
+            if (!saveTasks()) {
+                task.done = previousDone;
+                checkbox.checked = previousDone;
+                return;
+            }
+            renderTasks();
+        });
+
+        const info = document.createElement("div");
+        info.className = "task-info";
+
+        const name = document.createElement("div");
+        name.className = "task-name";
+        name.textContent = task.title;
+
+        const meta = document.createElement("div");
+        meta.className = "task-meta";
+
+        const category = document.createElement("span");
+        category.className = "tag";
+        category.textContent = task.category;
+
+        const priority = document.createElement("span");
+        priority.className = "tag";
+
+        const priorityNames = {
+            high: "Высокий приоритет",
+            medium: "Средний приоритет",
+            low: "Низкий приоритет"
+        };
+
+        priority.textContent =
+            priorityNames[task.priority] || "Средний приоритет";
+
+        priority.classList.add(
+            "priority-" + task.priority
+        );
+
+        const deadline = document.createElement("span");
+        deadline.className = "tag deadline";
+        deadline.textContent = "📅 " + formatDeadline(task.deadline);
+
+        if (isOverdue) {
+            deadline.classList.add("late");
+            deadline.textContent = "⚠ Просрочено: " +
+                formatDeadline(task.deadline);
+        }
+
+        meta.append(category, priority, deadline);
+        info.append(name, meta);
+
+        const actions = document.createElement("div");
+        actions.className = "task-actions";
+
+        const editButton = document.createElement("button");
+        editButton.className = "action-btn";
+        editButton.textContent = "Изменить";
+
+        editButton.addEventListener("click", () => {
+            if (editButton.dataset.editing === "true") {
+                const editor = info.querySelector(".edit-input");
+                const newTitle = editor.value.trim();
+
+                if (!newTitle) {
+                    alert("Название не может быть пустым!");
+                    return;
+                }
+
+                const previousTitle = task.title;
+                task.title = newTitle.slice(0, 100);
+                if (!saveTasks()) {
+                    task.title = previousTitle;
+                    return;
+                }
+                renderTasks();
+                return;
+            }
+
+            const editor = document.createElement("input");
+            editor.className = "edit-input";
+            editor.type = "text";
+            editor.value = task.title;
+            editor.maxLength = 100;
+
+            name.replaceWith(editor);
+
+            editButton.dataset.editing = "true";
+            editButton.textContent = "Сохранить";
+
+            editor.focus();
+        });
+
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "action-btn delete-btn";
+        deleteButton.textContent = "Удалить";
+
+        deleteButton.addEventListener("click", () => {
+            if (!confirm("Удалить эту задачу?")) return;
+
+            const previousTasks = tasks;
+            tasks = tasks.filter(item => item.id !== task.id);
+            if (!saveTasks()) {
+                tasks = previousTasks;
+                return;
+            }
+            renderTasks();
+        });
+
+        actions.append(editButton, deleteButton);
+        element.append(checkbox, info, actions);
+
+        taskList.appendChild(element);
+    });
+}
+
+taskForm.addEventListener("submit", event => {
+    event.preventDefault();
+
+    const title = taskInput.value.trim();
+
+    if (!title) return;
+
+    const newTask = {
+        id: crypto.randomUUID
+            ? crypto.randomUUID()
+            : String(Date.now() + Math.random()),
+        title: title.slice(0, 100),
+        category: categoryInput.value,
+        priority: priorityInput.value,
+        deadline: deadlineInput.value,
+        done: false,
+        createdAt: Date.now()
+    };
+
+    tasks.unshift(newTask);
+
+    if (!saveTasks()) {
+        tasks.shift();
+        return;
+    }
+    renderTasks();
+
+    taskForm.reset();
+    priorityInput.value = "medium";
+    taskInput.focus();
+});
+
+document.querySelectorAll(".filter-btn").forEach(button => {
+    button.addEventListener("click", () => {
+        currentFilter = button.dataset.filter;
+
+        document.querySelectorAll(".filter-btn").forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+        renderTasks();
+    });
+});
+
+searchInput.addEventListener("input", renderTasks);
+sortInput.addEventListener("change", renderTasks);
+
+document.getElementById("clearDone").addEventListener("click", () => {
+    const completed = tasks.filter(task => task.done).length;
+
+    if (completed === 0) {
+        alert("Нет выполненных задач для очистки.");
+        return;
+    }
+
+    if (!confirm("Удалить все выполненные задачи?")) return;
+
+    const previousTasks = tasks;
+    tasks = tasks.filter(task => !task.done);
+
+    if (!saveTasks()) {
+        tasks = previousTasks;
+        return;
+    }
+    renderTasks();
+});
+
+renderTasks();
+</script>
+
+<script>
+(()=>{const nav=document.getElementById('vvNavLinks'),menu=document.getElementById('vvMenuButton'),langBtn=document.getElementById('vvLangToggle')||document.getElementById('langToggle');if(!nav)return;
+let lang='en';try{lang=localStorage.getItem('vibeverse_language')||(navigator.language.toLowerCase().startsWith('ru')?'ru':'en')}catch(e){lang=navigator.language.toLowerCase().startsWith('ru')?'ru':'en'}
+function setLang(l){lang=l;document.documentElement.lang=l;nav.querySelectorAll('[data-vv-en]').forEach(el=>el.textContent=el.getAttribute('data-vv-'+l));if(langBtn)langBtn.textContent=l==='en'?'RU':'EN';try{localStorage.setItem('vibeverse_language',l)}catch(e){};if(typeof window.applyLanguage==='function')window.applyLanguage(l);if(typeof window.setLanguage==='function')window.setLanguage(l);document.dispatchEvent(new CustomEvent('vv-language-change',{detail:{language:l}}));}
+setLang(lang);langBtn?.addEventListener('click',()=>setLang(lang==='en'?'ru':'en'));
+menu?.addEventListener('click',()=>{const open=nav.classList.toggle('open');menu.setAttribute('aria-expanded',String(open));menu.textContent=open?'×':'☰'});
+nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nav.classList.remove('open');menu?.setAttribute('aria-expanded','false');if(menu)menu.textContent='☰';nav.querySelectorAll('details[open]').forEach(d=>d.removeAttribute('open'))}));
+})();
+</script>
+<script id="vv20-enhancements">(()=>{document.querySelectorAll('main section,article,.project-card,.service,.about-art,.step,.card').forEach(el=>el.classList.add('reveal'));if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal').forEach(e=>io.observe(e))}else document.querySelectorAll('.reveal').forEach(e=>e.classList.add('visible'));const y=document.getElementById('year');if(y)y.textContent=new Date().getFullYear();})();</script><script id="vv-demo-localization">(()=>{const pairs={"Мои задачи": "My tasks", "Планируй. Действуй. Достигай.": "Plan. Act. Achieve.", "Всего задач": "Total tasks", "Активные": "Active", "Выполнено": "Completed", "Мой прогресс": "My progress", "Выполнение задач": "Tasks completed", "+ Новая задача": "+ New task", "Личное": "Personal", "Работа": "Work", "Учёба": "Study", "Другое": "Other", "Низкий приоритет": "Low priority", "Средний приоритет": "Medium priority", "Высокий приоритет": "High priority", "Добавить задачу": "Add task", "Мой список": "My list", "Все": "All", "Выполненные": "Completed", "Сначала новые": "Newest first", "По приоритету": "By priority", "По сроку выполнения": "By deadline", "Очистить выполненные": "Clear completed", "Задачи не найдены ✨": "No tasks found ✨", "Без дедлайна": "No deadline", "Некорректная дата": "Invalid date", "Изменить": "Edit", "Сохранить": "Save", "Удалить": "Delete", "Название не может быть пустым!": "Task name cannot be empty!", "Просрочено: ": "Overdue: ", "Сохранение заблокировано: сначала необходимо восстановить данные задач.": "Saving blocked: restore task data first.", "Не удалось прочитать сохранённые задачи. Данные защищены от перезаписи. Сначала сделайте резервную копию или восстановите хранилище.": "Could not read saved tasks. Data is protected from overwrite. Back up or restore storage first.", "Не удалось сохранить задачи. Проверьте свободное место в браузере.": "Could not save tasks. Check browser storage space."};const map={ru:{},en:pairs};Object.entries(pairs).forEach(([ru,en])=>map.ru[en]=ru);const reverse=Object.fromEntries(Object.entries(pairs).map(([ru,en])=>[en,ru]));map.ru=pairs;map.en=reverse;let lang='en';try{lang=localStorage.getItem('vibeverse_language')||'en'}catch(e){};const translate=(root=document.body)=>{const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while(n=walker.nextNode()){let t=n.nodeValue;if(!t.trim())continue;let lead=t.match(/^\s*/)[0],tail=t.match(/\s*$/)[0],core=t.trim();if(map[lang][core])n.nodeValue=lead+map[lang][core]+tail;}root.querySelectorAll?.('[placeholder],[title],[aria-label]').forEach(el=>['placeholder','title','aria-label'].forEach(a=>{let v=el.getAttribute(a);if(v&&map[lang][v])el.setAttribute(a,map[lang][v])}));};const run=()=>translate();run();document.addEventListener('vv-language-change',e=>{lang=e.detail?.language||lang;translate()});const obs=new MutationObserver(ms=>ms.forEach(m=>{m.addedNodes.forEach(n=>{if(n.nodeType===1)translate(n);else if(n.nodeType===3){let c=n.nodeValue.trim();if(map[lang][c])n.nodeValue=n.nodeValue.replace(c,map[lang][c])}})}));obs.observe(document.body,{subtree:true,childList:true});})();</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+
+/* VIBEVERSE CINEMATIC unified layer */
+:root{--vv-bg:#060609;--vv-ink:#ece8df;--vv-lav:#bcaeff;--vv-violet:#6f4dff;--vv-line:rgba(236,232,223,.17)}
+html{scroll-behavior:smooth}
+body{background-color:var(--vv-bg)!important;color:var(--vv-ink)!important;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse at 70% 20%,rgba(111,77,255,.12),transparent 45%),radial-gradient(ellipse at 20% 80%,rgba(90,130,180,.07),transparent 55%);opacity:.9}
+body>*{position:relative}
+a,button{transition:transform .25s ease, color .25s ease, border-color .25s ease}
+a:hover{color:var(--vv-lav)!important}
+h1,h2,h3{letter-spacing:-.035em}
+img{max-width:100%}
+section,article,.card,.project-card,.service-card{border-color:var(--vv-line)}
+:focus-visible{outline:2px solid var(--vv-lav);outline-offset:4px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+
+/* Contact temporarily omitted from navigation */ .vv-contact-hidden{display:none!important}

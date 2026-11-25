@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#060609">
+<title data-i18n="meta.title">VIBEVERSE Studio — Creative Digital Lab</title>
+<meta name="description" content="VIBEVERSE Studio: websites, interfaces, 3D and bots, shaped with care." data-i18n-attr="content:meta.desc">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500;1,600&family=Inter:wght@400;500;600;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="studio-prototype.css">
+</head>
+<body class="is-loading">
+<a class="skip" href="#work" data-i18n="skip">Skip to content</a>
+
+<div class="frame" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="loader" id="loader" aria-hidden="true"><span id="loaderNum">000</span></div>
+
+<header class="top">
+  <a class="brand" href="#orbit" aria-label="VIBEVERSE">
+    <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><circle cx="16" cy="16" r="9.5" fill="none" stroke="#ece8df" stroke-width="1.5"/><ellipse cx="16" cy="16" rx="15" ry="5" transform="rotate(-32 16 16)" fill="none" stroke="#bcaeff" stroke-width="1.3"/><circle cx="26.6" cy="9.6" r="2" fill="#6f4dff"/></svg>
+    <span>VIBEVERSE</span>
+  </a>
+  <nav class="menu" aria-label="Main">
+    <a href="#work" data-i18n="nav.work">Work</a>
+    <a href="#capabilities" data-i18n="nav.caps">Capabilities</a>
+    <a href="#manifesto" data-i18n="nav.manifesto">Manifesto</a>
+  </nav>
+  <button class="lang" id="lang" type="button" aria-label="Switch language" data-i18n-attr="aria-label:lang.aria"><span data-l="en">EN</span><span data-l="ru">RU</span></button>
+</header>
+
+<canvas id="gl" aria-hidden="true"></canvas>
+
+<div class="fallback" id="fallback" aria-hidden="true" hidden>
+  <svg viewBox="-200 -200 400 400"><defs>
+    <linearGradient id="fm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4f5fa"/><stop offset=".35" stop-color="#7b7e92"/><stop offset=".55" stop-color="#d9dbe6"/><stop offset="1" stop-color="#3b3a52"/></linearGradient></defs>
+    <polygon points="-160,170 -70,170 0,-45 70,170 160,170 42,-170 -42,-170" transform="scale(1,-1)" fill="url(#fm)" stroke="#bcaeff" stroke-opacity=".5"/>
+  </svg>
+</div>
+
+<aside class="rail" aria-hidden="true">
+  <span class="rail-num" id="railNum">01 / 04</span>
+  <span class="rail-bar"><i id="railBar"></i></span>
+  <span class="rail-name" id="railName" data-i18n="scene.orbit">Orbit</span>
+</aside>
+
+<main>
+  <!-- СЦЕНА 1: ОРБИТА -->
+  <section class="scene hero" id="orbit" data-scene>
+    <div class="wordmark" aria-hidden="true">
+      <span class="wm wm-a">VIBE</span>
+      <span class="wm wm-b">VERSE</span>
+    </div>
+    <svg class="ringtext" viewBox="0 0 400 400" aria-hidden="true"><defs><path id="rt" d="M200,200 m-170,0 a170,170 0 1,1 340,0 a170,170 0 1,1 -340,0"/></defs>
+      <text><textPath href="#rt" startOffset="0">CREATE · DEVELOP · INSPIRE · CREATE · DEVELOP · INSPIRE · CREATE · DEVELOP · INSPIRE ·</textPath></text></svg>
+
+    <div class="stage" id="stage"></div>
+
+    <div class="hud" aria-hidden="true">
+      <span data-i18n="hud.lab">Creative Digital Lab</span>
+      <span class="tc" id="tc">00:00:00:00</span>
+    </div>
+
+    <div class="hero-copy">
+      <h1 class="statement" data-i18n-html="hero.title">Create beyond <em>limits.</em></h1>
+      <p class="lead" data-i18n="hero.lead">We shape digital ideas into thoughtful experiences, where design, technology and imagination meet.</p>
+    </div>
+    <div class="hero-side">
+      <a class="cta" id="cta" href="#work"><span data-i18n="hero.cta">Explore the work</span><i aria-hidden="true">↓</i></a>
+      <p class="hint" data-i18n="hero.hint">Drag to turn the mark</p>
+    </div>
+  </section>
+
+  <!-- СЦЕНА 2: РАБОТЫ -->
+  <section class="scene work" id="work" data-scene aria-labelledby="work-h">
+    <div class="work-in">
+      <h2 class="tiny" id="work-h" data-i18n="work.title">Selected work</h2>
+      <ul class="roll" id="roll">
+        <li><button type="button" class="row" data-i="0" aria-pressed="true"><span class="row-t">Tasks 3.0</span><span class="row-c" data-i18n="p.tasks.cat">Productivity</span></button></li>
+        <li><button type="button" class="row" data-i="1" aria-pressed="false"><span class="row-t">Finance 2.0</span><span class="row-c" data-i18n="p.finance.cat">Finance</span></button></li>
+        <li><button type="button" class="row" data-i="2" aria-pressed="false"><span class="row-t">HabitFlow 5.0</span><span class="row-c" data-i18n="p.habit.cat">Habits</span></button></li>
+        <li><button type="button" class="row" data-i="3" aria-pressed="false"><span class="row-t">Portfolio</span><span class="row-c" data-i18n="p.portfolio.cat">Studio</span></button></li>
+      </ul>
+      <div class="caption" aria-live="polite">
+        <p id="wDesc"></p>
+        <a id="wLink" href="projects/tasks.html"><span data-i18n="work.open">Open project</span> ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- СЦЕНА 3: НАПРАВЛЕНИЯ -->
+  <section class="scene caps" id="capabilities" data-scene aria-labelledby="caps-h">
+    <div class="caps-in">
+      <h2 class="tiny" id="caps-h" data-i18n="caps.title">Capabilities</h2>
+      <ul class="orbits" id="orbits">
+        <li><button type="button" class="cap" data-i="0" aria-pressed="false"><span class="cap-d" data-i18n="s.web.d">Responsive websites, landing pages and interactive web experiences.</span><span class="cap-t" data-i18n="s.web">Web development</span></button></li>
+        <li><button type="button" class="cap" data-i="1" aria-pressed="false"><span class="cap-d" data-i18n="s.ui.d">Clear interfaces, user flows and visual systems.</span><span class="cap-t" data-i18n="s.ui">UI / UX design</span></button></li>
+        <li><button type="button" class="cap" data-i="2" aria-pressed="false"><span class="cap-d" data-i18n="s.motion.d">Motion-led visuals, 3D scenes and expressive content.</span><span class="cap-t" data-i18n="s.motion">3D &amp; animation</span></button></li>
+        <li><button type="button" class="cap" data-i="3" aria-pressed="false"><span class="cap-d" data-i18n="s.perf.d">Performance, usability and technical improvements.</span><span class="cap-t" data-i18n="s.perf">Optimization</span></button></li>
+        <li><button type="button" class="cap" data-i="4" aria-pressed="false"><span class="cap-d" data-i18n="s.bots.d">Chat-based tools and lightweight workflow automation.</span><span class="cap-t" data-i18n="s.bots">Telegram bots</span></button></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- СЦЕНА 4: МАНИФЕСТ (непрозрачный светлый блок закрывает 3D) -->
+  <section class="scene manifesto" id="manifesto" data-scene aria-labelledby="man-h">
+    <div class="man-in">
+      <h2 class="tiny" id="man-h" data-i18n="man.title">Manifesto</h2>
+      <p class="big" id="big" data-i18n="man.text">VIBEVERSE is an independent creative digital space for exploring ideas, building useful products and learning through real projects. We value clarity, curiosity and thoughtful execution.</p>
+      <dl class="values">
+        <div><dt data-i18n="v.1">Curiosity</dt><dd data-i18n="v.1d">Explore ideas beyond the obvious.</dd></div>
+        <div><dt data-i18n="v.2">Craft</dt><dd data-i18n="v.2d">Care about details and the experience.</dd></div>
+        <div><dt data-i18n="v.3">Progress</dt><dd data-i18n="v.3d">Improve through testing and iteration.</dd></div>
+        <div><dt data-i18n="v.4">Purpose</dt><dd data-i18n="v.4d">Build things that solve real needs.</dd></div>
+      </dl>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <span class="foot-word" aria-hidden="true">VIBEVERSE</span>
+  <div class="foot-row"><span>© <span id="year"></span> VIBEVERSE</span><span data-i18n="foot.tag">Create · Develop · Inspire</span></div>
+</footer>
+
+<script type="module" src="studio-prototype.js"></script>
+</body>
+</html>
